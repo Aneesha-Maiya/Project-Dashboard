@@ -1,0 +1,168 @@
+
+[
+    {
+      "name" : "Nggolek Duwet UI kit",
+      "deadline": "May 8,2021",
+      "numberOfTasks": 10,
+      "numberOfMembers": 3,
+      "numberOfTasksCompleted": 4,
+      "id": 1,
+      "isFavorite": true,
+      "team": "ProductStudio",
+      "logo": "../image/UiKit.jfif",
+      "sharedBy" : {
+        "userName" : "Lindsley Alison",
+        "userID" : "7LN563"
+      }
+    },
+    {
+      "name" : "Dribble Shot",
+      "deadline": "June 2,2021",
+      "numberOfTasks": 10,
+      "numberOfMembers" : 6,
+      "numberOfTasksCompleted": 5,
+      "id": 2,
+      "isFavorite": false,
+      "team": "ProductStudio",
+      "logo": "../image/DribbleShot.avif",
+      "sharedBy" : {
+        "userName" : "Lindsley Alison",
+        "userID" : "7LN563"
+      }
+    },
+    {
+      "name" : "Madiun Smartcity App",
+      "deadline": "May 18,2021",
+      "numberOfTasks": 10,
+      "numberOfMembers" : 12,
+      "numberOfTasksCompleted": 2,
+      "id": 3,
+      "isFavorite": true,
+      "team": "ProductStudio",
+      "logo": "../image/SmartCity.jpg",
+      "sharedBy" : {
+        "userName" : "Lindsley Alison",
+        "userID" : "7LN563"
+      }
+    },
+    {
+      "name" : "Fintech Landing",
+      "deadline": "May 21,2021",
+      "numberOfTasks": 4,
+      "numberOfMembers" : 6,
+      "numberOfTasksCompleted": 2,
+      "id": 4,
+      "isFavorite": false,
+      "team": "ProductStudio",
+      "logo": "../image/Fintech.jfif",
+      "sharedBy" : {
+        "userName" : "Lindsley Alison",
+        "userID" : "7LN563"
+      }
+    },
+    {
+      "name" : "Logo Design",
+      "deadline": "May 25,2021",
+      "numberOfTasks": 7,
+      "numberOfMembers" : 3,
+      "numberOfTasksCompleted": 2,
+      "id": 5,
+      "isFavorite": false,
+      "team": "ProductStudio",
+      "logo": "../image/Fintech.jfif",
+      "sharedBy" : {
+        "userName" : "Aaron Stanley",
+        "userID" : "3AN432"
+      }
+    },
+    {
+      "name" : "Digital Banner Design",
+      "deadline": "May 31,2021",
+      "numberOfTasks": 9,
+      "numberOfMembers" : 4,
+      "numberOfTasksCompleted": 5,
+      "id": 6,
+      "isFavorite": false,
+      "team": "ProductStudio",
+      "logo": "../image/Fintech.jfif",
+      "sharedBy" : {
+        "userName" : "Amelia Martinej",
+        "userID" : "1AM456"
+      }
+    },
+    {
+      "name" : "Sales Management App",
+      "deadline": "July 25,2021",
+      "numberOfTasks": 15,
+      "numberOfMembers" : 6,
+      "numberOfTasksCompleted": 6,
+      "id": 7,
+      "isFavorite": false,
+      "team": "ProductStudio",
+      "logo": "../image/Fintech.jfif",
+      "sharedBy" : {
+        "userName" : "Brian Artemayev",
+        "userID" : "5BA093"
+      }
+    },
+    {
+      "name" : "Karnataka Tourism landing page",
+      "deadline": "May 13,2021",
+      "numberOfTasks": 8,
+      "numberOfMembers" : 3,
+      "numberOfTasksCompleted": 3,
+      "id": 8,
+      "isFavorite": false,
+      "team": "ProductStudio",
+      "logo": "../image/Fintech.jfif",
+      "sharedBy" : {
+        "userName" : "Jessica Naomi",
+        "userID" : "1JN067"
+      }
+    },
+    {
+      "name" : "Unreal Game Engine development",
+      "deadline": "August 25,2021",
+      "numberOfTasks": 15,
+      "numberOfMembers" : 5,
+      "numberOfTasksCompleted": 4,
+      "id": 9,
+      "isFavorite": false,
+      "team": "ProductStudio",
+      "logo": "../image/Fintech.jfif",
+      "sharedBy" : {
+        "userName" : "Jessica Naomi",
+        "userID" : "1JN067"
+      }
+    },
+    {
+      "name" : "Weather Forecast page",
+      "deadline": "June 5,2021",
+      "numberOfTasks": 8,
+      "numberOfMembers" : 3,
+      "numberOfTasksCompleted": 2,
+      "id": 10,
+      "isFavorite": false,
+      "team": "ProductStudio",
+      "logo": "../image/Fintech.jfif",
+      "sharedBy" : {
+        "userName" : "Brian Artemayev",
+        "userID" : "5BA093"
+      }
+    },
+    {
+      "name" : "Short Film animation",
+      "deadline": "September 25,2021",
+      "numberOfTasks": 20,
+      "numberOfMembers" : 10,
+      "numberOfTasksCompleted": 3,
+      "id": 11,
+      "isFavorite": false,
+      "team": "ProductStudio",
+      "logo": "../image/Fintech.jfif",
+      "sharedBy" : {
+        "userName" : "Aaron Stanley",
+        "userID" : "3AN432"
+      }
+    }
+  ]

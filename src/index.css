@@ -1,0 +1,532 @@
+body{
+  background-color:#3b30a6;
+  font-family: "Inter";
+}
+
+.HeaderContent{
+  display: grid;
+  grid-template-columns: 22% 33% 30% 15%;
+  background-color: #3b30a6;
+  margin: 1vw;
+  padding: 0vw 1vw;
+  align-items: center;
+  color: white;
+}
+.HeaderContent i{
+  font-size: 1.5vw;
+  margin-right: 0.5vw;
+}
+.HeaderContent .CompanyName{
+  margin-right: 20%;
+  font-size: 1.25vw;
+  text-align: left;
+}
+.HeaderContent .Greeting{
+  margin-right: 10%;
+}
+.HeaderContent .Greeting p{
+  font-size: 1vw;
+  margin: 0px;
+}
+.HeaderContent .Greeting h2{
+  font-size: 1.5vw;
+  margin-top: 0px;
+  margin-bottom: 0.2vw;
+}
+.HeaderContent .SearchBar{
+  display: flex;
+  /* border: 1px solid blue; */
+  flex-direction: row;
+  margin: 1.5vw;
+  padding: 0.5vw 2vw 0.5vw 1vw;
+  width: 80%;
+  background-color: #896cbf;
+  border-radius: 1vw;
+}
+.HeaderContent .SearchBar i{
+  font-size: 1.25vw;
+}
+.HeaderContent .SearchBar input{
+  /* border: 1px solid red; */
+  width: 15vw;
+  margin-left: 1vw;
+  margin-right: 0px;
+  padding: 0.2vw;
+  font-size: 1vw;
+  font-weight: 100;
+  font-family: "Inter";
+  border: none;
+  background-color: #896cbf;
+}
+.HeaderContent .SearchBar input::placeholder{
+  color: white;
+}
+.HeaderContent .SearchBar input:focus{
+  border: none;
+}
+
+.HeaderContent .UserInfo{
+  display: flex;
+}
+.HeaderContent .UserInfo h3{
+  margin: 0px;
+}
+.HeaderContent .UserInfo img{
+  width: 4vw;
+  height: 4vw;
+  border-radius: 50%;
+  margin-right: 1vw;
+}
+.HeaderContent .UserInfo .UserBio{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.HeaderContent .UserInfo .UserBio p{
+  font-size: 0.9vw;
+  margin: 0px;
+}
+.HeaderContent .UserInfo .UserBio h3{
+  font-size: 1.15vw;
+}
+.MainContent{
+  display: flex;
+  background-color: #3b30a6;
+  margin: 1vw;
+}
+
+.SideBarContent{
+  background-color: white;
+  width:20%;
+  height: 100%;
+  margin: 0.5vw;
+  padding: 0.5vw;
+  border-radius: 2vw;
+  background-color: #3b30a6;
+  color: white;
+}
+/* .SideBarContent li{
+  background-color: dodgerblue;
+  margin: 0.5vw 0vw;
+  color: white;
+  height: 3vw;
+  padding: 0.5vw 1vw;
+  text-align: left;
+  border-radius: 1vw;
+  font-size: 1.4vw;
+  font-weight: 500;
+  border: 1px solid black;
+} */
+.SideBarContent .SideBarList{
+  display: grid;
+  grid-template-columns: auto;
+  margin-bottom: 1vw;
+}
+.SideBarContent .SideBarList i{
+  margin-right: 1vw;
+  font-size: 1.4vw;
+}
+.SideBarContent .SideBarList a{
+  margin: 0.5vw 0vw;
+  padding: 1vw 0.5vw;
+  font-weight: 500;
+  font-size: 1.25vw;
+  background-color: #3b30a6;
+}
+.SideBarContent .SideBarList a:link, a:visited{
+  background-color: dodgerblue;
+  color: white;
+  text-decoration: none;
+  border-radius: 1vw;
+}
+.SideBarContent .SideBarList a:hover , a:active{
+  background-color: white;
+  color: darkviolet;
+  text-decoration: none;
+}
+.TaskContent{
+  background-color:white;
+  width:80%;
+  height: 50vw;
+  margin: 1vw;
+  border-radius: 2vw;
+  padding: 2vw;
+  overflow-y: scroll;
+}
+.TaskContentBottomHeading{
+  display: grid;
+  padding: 1vw 1vw;
+  grid-template-columns: 30% 30% 40%;
+  align-items: center;
+}
+.TaskContentBottomHeading p{
+  color: #fe3899;
+  text-decoration: none;
+  text-align: right;
+  font-size: 0.8vw;
+  font-weight: 600;
+}
+.TaskContentBottomHeading .TeamMembers{
+  text-align: center;
+}
+.TaskContentTopHeading{
+  display: grid;
+  padding: 1vw 1vw;
+  grid-template-columns: 30% 30% 40%;
+}
+.TaskContentTopHeading p{
+  color: #fe3899;
+  text-decoration: none;
+  text-align: right;
+  font-size: 0.8vw;
+  font-weight: 600;
+}
+.TaskContentTopHeading .CalanderTitle{
+  text-align: center;
+}
+.TaskContentBottomHeading h1{
+  font-size: 1.5vw;
+  margin: 0px;
+  font-weight: 900;
+}
+.TaskContentTopHeading h1{
+  font-size: 1.5vw;
+  margin: 0px;
+  font-weight: 900;
+}
+.TaskContentBottomHeading .ProjectsHeading{
+  /* margin-right: 21%; */
+ }
+.TaskContentBottom{
+  display: flex;
+}
+.TaskContentTop{
+  display: grid;
+  grid-template-columns: 60% 40%;
+}
+.TaskContentTop .TaskCalander{
+  justify-self: center;
+}
+.TaskContentBottomProject{
+  display: grid;
+  grid-template-columns: 50% 50%;
+  width: 60%;
+}
+.ProjectAddEditButton{
+  display: grid;
+  grid-template-columns: 50% 50%;
+  width: 60%;
+  justify-items: center;
+}
+.ProjectAddEditButton .ProjectButton{
+  /* position: absolute; */
+  width: 60%;
+  height: 3vw;
+  font-size: 1vw;
+  margin: 1vw 0vw;
+  padding: 0%;
+  font-weight: 600;
+}
+.ProjectAddEditButton .ProjectButton .ProjectButtonIcon{
+  margin-right: 0.5vw;
+}
+.TaskContentBottomTeam{
+  display: flex;
+  /* align-items: center; */
+  flex-direction: column;
+  width: 40%;
+}
+.TeamMemberContent{
+  display: flex;
+  /* text-align: center; */
+  flex-direction: row;
+  align-items: center;
+  margin-left: 1vw;
+}
+.TeamMemberContent h3,p{
+  margin: 0.4vw;
+}
+.TeamMemberContent h3{
+  font-size: 1vw;
+  font-weight: 800;
+}
+.TeamMemberContent p{
+  font-size: 0.8vw;
+}
+.TeamMemberContent .TeamMemberInfo{
+  width: 50%;
+}
+.TeamMemberContent i{
+  margin-left: 5vw;
+  font-size: 1.5vw;
+}
+.TeamMemberContent img{
+  height: 4vw;
+  width: 4vw;
+  padding: 0.5vw;
+  border-radius: 50%;
+}
+.ProjectContent,.ProjectContentItem1,.ProjectContentItem2,
+.ProjectContentItem3,.ProjectContentItem4,.ProjectContentItem5{
+  /* border: solid 1px black; */
+  margin: 0.5vw;
+  border-radius: 1vw;
+  padding: 0.5vw;
+}
+.ProjectContentItem1{
+  background-color: rgb(196, 185, 218);
+  /* background-color: #eae8fe; */
+}
+.ProjectContentItem2{
+  background-color: rgb(247, 171, 209);
+  /* background-color: #ffe2f4; */
+}
+.ProjectContentItem3{
+  background-color:rgb(162, 245, 236);
+  /* background-color: #e9fbff; */
+}
+.ProjectContentItem4{
+  background-color: rgb(247, 222, 83);
+  /* background-color: #fdedcc; */
+}
+.ProjectContentItem5{
+  background-color:greenyellow;
+}
+.ProjectContentInfo{
+  display: grid;
+  grid-template-columns: 30% 70%;
+}
+.ProjectContentInfo .ProjectNameDate{
+  display: grid;
+}
+/* .ProjectContentInfo .ProjectNameDate > h3,
+.ProjectContentInfo .ProjectNameDate > p{
+  margin: 0vw 0.4vw 0.4vw 0.4vw;
+} */
+.ProjectContentInfo .ProjectNameDate > h3{
+  margin: 0.4vw 0.4vw 0vw 0.4vw;
+  font-size: 1vw;
+  font-weight: 800;
+}
+.ProjectContentInfo .ProjectNameDate > p{
+  font-size: 0.8vw;
+  font-weight: 500;
+  margin: 0vw 0.4vw 0.4vw 0.4vw;
+}
+.ProjectContentInfo > img{
+  height: 4vw;
+  width: 4vw;
+  border-radius: 50%;
+  align-self: center;
+  justify-self: center;
+}
+.ProjectTasksInfo {
+  display: grid;
+  grid-template-columns: 25% 25% 50%;
+  justify-content: center;
+}
+.ProjectTasksInfo p{
+  background-color: whitesmoke;
+  margin: 0.5vw 0.2vw;
+  padding: 0.1vw;
+  font-size: 0.7vw;
+  text-align: center;
+  border-radius: 1vw;
+}
+.ProjectProgressBar{
+  display: grid;
+  grid-template-columns: 80% 20%;
+  align-items: center;
+}
+.ProjectProgressBar #progressBar1{
+  height: 0.5vw !important;
+}
+.ProjectProgressBar p{
+  margin: 0vw 0.5vw;
+  font-size: 0.8vw;
+}
+.TasksContentTrue, .TasksContentFalse{
+  display: grid;
+  grid-template-columns: 50% 50%;
+  border: solid 1px #f2f2fa;
+  margin: 1vw 0vw;
+  border-radius: 1vw;
+  padding: 0.5vw;
+  background-color: #f2f2fa;
+}
+.TasksContentFalse{
+  background-color: white;
+}
+.TasksContentTrue h3,p,.TasksContentFalse h3,p {
+  margin: 0.4vw;
+}
+.TasksContentTrue h3,.TasksContentFalse h3{
+  font-size: 1.1vw;
+  font-weight: 800;
+}
+.TasksContentTrue p,.TasksContentFalse p{
+  font-size: 0.8vw;
+}
+.TasksContentTrue #checked-circle,.TasksContentFalse #checked-circle{
+    font-size: 1.5vw;
+    align-self: center;
+    justify-self: center;
+    color: #fe3899;
+    cursor: pointer;
+}
+.TasksContentTrue #unchecked-circle,.TasksContentFalse #unchecked-circle{
+  font-size: 1.5vw;
+  align-self: center;
+  justify-self: center;
+  color: gray;
+  cursor: pointer;
+}
+.CalanderContent{
+  text-align: center;
+  padding: 1vw 0vw;
+}
+.CalanderContent h3,p{
+  margin: 0.4vw;
+}
+.CalanderContent h3{
+  font-size: 1.25vw;
+}
+.CalanderContent p{
+  font-size: 1vw;
+}
+.FavoriteProjects{
+  border-top: 1px solid gray;
+  border-bottom: 1px solid gray;
+}
+.FavoriteProjects h4{
+  padding: 1vw 0vw;
+  font-size: 1.2vw;
+}
+.FavoriteProjects ul li{
+  font-size: 1vw;
+}
+.FavoriteProjects ul #listItem1::marker{
+  color:turquoise;
+  font-size: 1.5vw;
+}
+.FavoriteProjects ul #listItem2::marker{
+  color:green;
+  font-size: 1.5vw;
+}
+.FavoriteProjects ul #listItem3::marker{
+  color:red;
+  font-size: 1.5vw;
+}
+.FavoriteProjects ul #listItem3::marker{
+  color: gold;
+  font-size: 1.5vw;
+}
+#dropdown-basic-button{
+  /* background-color: green; */
+  height: 2.5vw !important;
+  margin: 1vw 0vw !important;
+  align-content: center !important;
+  justify-content: center !important;
+  font-size: 1vw !important;
+}
+.dropdownItem{
+  background-color: blue !important;
+  margin: 0.2vw 0vw !important;
+}
+.Teams-Projects h4{
+  padding: 1vw 0vw;
+  font-size: 1.2vw;
+  margin-bottom: 0vw;
+}
+.Teams-Projects .ProductStudio{
+  margin: 2vw 0vw;
+}
+.Teams-Projects .ProductStudio .ProductStudioHeading{
+  margin: 0vw 0vw 0.5vw 0vw !important;
+  font-size: 1.2vw !important;
+}
+.Teams-Projects .ProductStudio #teamProject1, #teamProject2 ,#teamProject3, #teamProject4{
+  font-size: 1vw !important;
+}
+.Teams-Projects .AnimateStudio .AnimateStudioHeading{
+  margin: 0.5vw 0vw !important;
+  font-size: 1.2vw !important;
+}
+.Teams-Projects .AnimateStudio{
+  margin: 2vw 0vw;
+}
+
+/*AllProjects Css rules*/ 
+.TaskContentBottomAllProject{
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
+}
+.TaskContentBottomOthersProject{
+  display:grid;
+  grid-template-columns: 33% 33% 33%;
+}
+.TaskContentBottomNameHeading h1{
+  display: grid;
+  font-size: 1.3vw;
+  font-weight: 600;
+  padding: 1vw;
+  margin: 0vw;
+}
+
+/*MyModal css rules*/
+.MyModal{
+  color: black;
+  font-weight: 400;
+}
+.MyModalHeader{
+  font-size: 1.5vw;
+  background-color:#3b30a6;
+  color: white;
+}
+.MyModalBody{
+  color: white;
+  background-color: #958afc;
+}
+.MyModalFooter{
+  background-color:#3b30a6;
+  color: white;
+  justify-content: center;
+}
+.MyModalHeaderButton{
+  font-size: 1vw;
+  padding: 0.5vw;
+  width: 10%;
+}
+
+/*AddProjectForms css rules*/
+.FormControlElements{
+  padding: 0.5vw;
+  font-size: 1vw;
+}
+.FormControlElementLabels,.FormSelectOptions{
+  font-size: 1vw;
+}
+.FormControlElementsButton{
+  font-size: 1vw;
+  padding: 0.5vw;
+  margin-top: 2vw;
+  width: 10%;
+}
+.errorMessage{
+  font-size: 1vw;
+  color: red;
+  font-weight: 600;
+}
+
+/*Password.jsx Css rules */
+.MyModalFooterButton{
+  font-size: 1vw;
+  padding: 0.5vw;
+}
+.TogglePassword{
+  font-size: 1vw;
+}
+.MyModalFooterHomeButton{
+  font-size: 1vw;
+  padding: 0.5vw;
+}
