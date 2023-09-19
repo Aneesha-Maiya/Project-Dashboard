@@ -97,7 +97,7 @@ const checkTask = (itemIndex)=>{
 }
 
 const keyCloak = new Keycloak({
-  url: "",
+  url: "http://localhost:8080/auth",
   realm: "karthikrealm",
   clientId: "bcauth"
 });
