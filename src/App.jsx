@@ -17,6 +17,7 @@ import AllProjects from '../components/AllProjects'
 import MyModal from '../components/MyModal'
 import Password from '../components/Password'
 import UserDetails from '../components/UserDetails'
+import './Keycloak-Login.css'
 
 import Lindsley from '../image/Lindsley.jfif'
 import Aaron from '../image/Aaron.jfif'
@@ -96,16 +97,18 @@ const checkTask = (itemIndex)=>{
   setTask(newTasks)
 }
 
-const keyCloak = new Keycloak({
-  url: "http://localhost:8080/auth",
-  realm: "karthikrealm",
-  clientId: "bcauth"
-});
+// const keyCloak = new Keycloak({
+//   url: "http://localhost:8080/auth",
+//   realm: "karthikrealm",
+//   clientId: "bcauth"
+// });
+const keyCloak = new Keycloak('/keycloak.json')
 const checkKeyloak = async () => {
   try {
     const authenticated = await keyCloak.init({onLoad:"login-required"});
     console.log(`User is ${authenticated ? 'authenticated' : 'not authenticated'}`);
     console.log("client", keyCloak);
+    console.log(keyCloak.token)
   } catch (error) {
     console.error('Failed to initialize adapter:', error);
   }
@@ -125,7 +128,7 @@ useEffect( () => {
           <>
             <Header
             name = "Lindsey"
-            fullName = "Lindsley Alison"
+            fullName = "Lindsley Alisson"
             position = "UI Designer"
             profileImg = {Lindsley}
             />
@@ -134,6 +137,7 @@ useEffect( () => {
                 project = {project}
                 passwordModel = {passwordModel}
                 passwordSetModel = {setPasswordModel}
+                Keycloak = {keyCloak}
               />
               <div className='TaskContent'>
                 <div className='TaskContentTopHeading'>

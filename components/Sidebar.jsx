@@ -16,7 +16,7 @@ export default function Sidebar(props) {
             <Link to='/'><a href='#'><i class = 'fa fa-home'/>Home</a></Link>
             <Link to='/Password'><a href='#'onClick={()=>{props.passwordSetModel(true)}}
             ><i class ='fa fa-check-square-o'/>My tasks</a></Link>
-            <a href='#'><i class ='fa fa-bell-o'/>Inbox</a>
+            <a href='/'><i class ='fa fa-bell-o'/>Inbox</a>
         </div>
         <div className='FavoriteProjects'>
           <h4 className='FavoriteHeading'>Favorites</h4>
