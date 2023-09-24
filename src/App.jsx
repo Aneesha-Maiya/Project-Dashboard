@@ -17,7 +17,6 @@ import AllProjects from '../components/AllProjects'
 import MyModal from '../components/MyModal'
 import Password from '../components/Password'
 import UserDetails from '../components/UserDetails'
-import './Keycloak-Login.css'
 
 import Lindsley from '../image/Lindsley.jfif'
 import Aaron from '../image/Aaron.jfif'
@@ -123,6 +122,14 @@ useEffect( () => {
   return (
     <>
       <Routes>
+      <Route path='/Password' element = {
+      <Password
+        show = {passwordModel}
+        onHide = {()=>setPasswordModel(false)}
+        passwordModel = {passwordModel}
+        passwordSetModel = {setPasswordModel}
+      />
+      }/>
         <Route path='/' element = 
         {
           <>
@@ -229,14 +236,6 @@ useEffect( () => {
           project = {project}
           currentUser = {userName}
         />
-      }/>
-      <Route path='/Password' element = {
-      <Password
-        show = {passwordModel}
-        onHide = {()=>setPasswordModel(false)}
-        passwordModel = {passwordModel}
-        passwordSetModel = {setPasswordModel}
-      />
       }/>
       <Route path='/UserDetails' element={
         <UserDetails
