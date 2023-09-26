@@ -109,7 +109,7 @@ const checkKeyloak = async () => {
     console.log("client", keyCloak);
     console.log(keyCloak.token)
   } catch (error) {
-    console.error('Failed to initialize adapter:', error);
+    // console.error('Failed to initialize adapter:', error);
   }
 }
 const isCalled = useRef(false);

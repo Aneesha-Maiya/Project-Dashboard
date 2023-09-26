@@ -43,8 +43,15 @@ body{
   background-color: #896cbf;
   border-radius: 1vw;
 }
+.HeaderContent .SearchBar button{
+  padding: 0px;
+  background-color: #896cbf;
+  border: none;
+  cursor: pointer;
+}
 .HeaderContent .SearchBar i{
-  font-size: 1.25vw;
+  font-size: 1vw;
+  text-align: center;
 }
 .HeaderContent .SearchBar input{
   /* border: 1px solid red; */
@@ -57,11 +64,12 @@ body{
   font-family: "Inter";
   border: none;
   background-color: #896cbf;
+  color: white;
 }
 .HeaderContent .SearchBar input::placeholder{
   color: white;
 }
-.HeaderContent .SearchBar input:focus{
+.HeaderContent .SearchBar input::after{
   border: none;
 }
 
@@ -529,4 +537,25 @@ body{
 .MyModalFooterHomeButton{
   font-size: 1vw;
   padding: 0.5vw;
+}
+
+/*user details*/
+.LoginNotDone{
+  display: grid;
+  background-color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  width: 20%;
+  align-content: center;
+  justify-items: center;
+  height: 20%;
+  border-radius: 1vw;
+}
+
+.LoginNotDone p{
+  font-weight: 500;
+  color: red;
+  margin-bottom: 2vw;
 }

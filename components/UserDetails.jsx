@@ -5,10 +5,11 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faHome} from '@fortawesome/free-solid-svg-icons'
 import {useForm} from 'react-hook-form'
 
+const baseUrl = "test"
 const APIResponse = new Map()
 APIResponse.set("NewLogin",true)
-APIResponse.set("ToolNameRequired",["discord","github"])
-APIResponse.set("UserRole","Member/Admin")
+APIResponse.set("datasRequired",["discord","github"])
+APIResponse.set("userRole","Member/Admin")
 
 let ToolNameRequiredArray = []
 let DiscordReq = false
@@ -19,13 +20,49 @@ let LoginDone = false
 APIResponse.forEach((value,key) => {
   console.log(`${key} = ${value}`);
   console.log(value)
-  if(key=="ToolNameRequired"){  
+  if(key=="datasRequired"){  
     ToolNameRequiredArray = value
   }
   if(key=="NewLogin"){
     LoginDone = value
   }
 });
+
+var APIResponseFetch = []
+async function getDataAsync(){
+  const res = await fetch('https://jsonplaceholder.typicode.com/posts')
+  console.log("Response is: "+res)
+  const data = await res.json()
+  console.log("Data is : "+JSON.stringify(data[0]))
+}
+getDataAsync()
+
+fetch('https://jsonplaceholder.typicode.com/posts')
+.then(res => {
+  return res.json()
+})
+.then(data => {
+  console.log(data[0])
+}).catch(error => {
+  console.log(error)
+})
+
+let enteredValue = {
+  discordUsername: "",
+  githubUsername: "",
+  azureDevopsUsername: "",
+}
+let testValue = {
+  title: "",
+  // body: "",
+}
+let option = {
+  method: 'POST',
+  headers: {
+    'Content-Type' : 'application/json;charset=utf-8'
+  },
+  body: JSON.stringify(testValue)
+}
 
 for (let i = 0; i < ToolNameRequiredArray.length; i++) {
   if(ToolNameRequiredArray[i]=="discord" || ToolNameRequiredArray=="Discord"){
@@ -64,8 +101,20 @@ export default function UserDetails(props) {
               handleSubmit(
                 (d)=>{
                     alert("Details updated successfully!")
+                    enteredValue.discordUsername = d.discordUsername
+                    enteredValue.githubUsername = d.githubUsername
+                    enteredValue.azureDevopsUsername = d.azureDevopsUsername
+                    testValue.title = d.discordUsername
                     console.log(d)
                     // navigate('/')
+                    fetch('https://dummyjson.com/posts/add',option)
+                    .then(res => {
+                      res.json()
+                      console.log(res)
+                    })
+                    .then( data =>
+                      console.log("Data after submit: "+ data)
+                    )
                 }
               )
         }>
@@ -132,7 +181,12 @@ export default function UserDetails(props) {
             <Link to = '/'><Button onClick={props.onHide} variant='warning' className = "MyModalFooterButton">
             <FontAwesomeIcon icon={faHome}/>  Home</Button></Link>
         </Modal.Footer>
-    </Modal> : navigate('/')}
+    </Modal> : 
+    <div className="LoginNotDone">
+        <p>Please Login First!</p>
+        <Link to = '/'><Button onClick={props.onHide} variant='warning' className = "MyModalFooterButton">
+        <FontAwesomeIcon icon={faHome}/>  Login</Button></Link>
+    </div>}
     </>
   )
 }
