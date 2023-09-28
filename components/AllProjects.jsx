@@ -9,8 +9,10 @@ import Lindsley from '../image/Lindsley.jfif'
 
 export default function AllProjects(props) {
   let otherProject = []
+  let projectItem = props.project
   const [sharedProjects,setSharedProjects] = useState({})
   const [sharedProjects1,setSharedProjects1] = useState(otherProject)
+  const [projectsSearched,setProjectsSearched] = useState(projectItem)
   // useEffect(()=>{
   //   let data = new Map();
   //   for (let i = 0; i < props.project.length; i++) {
@@ -29,7 +31,7 @@ export default function AllProjects(props) {
   //   setSharedProjects(data)
   // },[props.project])
   // console.log("Shared Project-"+sharedProjects)
-  let projectItem = props.project
+  
   let nameList = []
   function checkName(index){
     for (let i = index; i < projectItem.length; i++) {
@@ -48,10 +50,10 @@ export default function AllProjects(props) {
     }
   }
   checkName(4)
-  for (let i = 0; i < nameList.length; i++) {
-    console.log(nameList[i] + i)
-  }
-  console.log("---End---")
+  // for (let i = 0; i < nameList.length; i++) {
+  //   console.log(nameList[i] + i)
+  // }
+  // console.log("---End---")
   function showItems(){
     for (let i = 0; i < nameList.length; i++) {
       let currentItem = nameList[i]
@@ -80,20 +82,39 @@ export default function AllProjects(props) {
     }
   }
   addOtherProjects()
-  console.log("OtherProject- ",otherProject)
-  console.log("---Finish---")
+  // console.log("OtherProject- ",otherProject)
+  // console.log("---Finish---")
+  useEffect(()=>{
+    function setSearchedProjectList(){
+      if(props.searchValue === ""){
+        console.log("SearchValue is Blank")
+        return;
+      }
+      const filterBySearch = projectItem.filter((Item) => {
+        if(Item.name.toLowerCase().includes(props.searchValue.toLowerCase())){
+          return Item
+        }
+      })
+      setProjectsSearched(filterBySearch)
+      console.log("Searched project: "+JSON.stringify(projectsSearched))
+      console.log("Search Value is:"+props.searchValue)
+    }
+    setSearchedProjectList()
+  },[props.searchValue])
   return (
     <>
-        <Header
+        <Header 
         name = "Lindsey"
         fullName = "Lindsley Alison"
         position = "UI Designer"
-        profileImg = {Lindsley}/>
-        <div className='MainContent'>
+        profileImg = {Lindsley}
+        setSearchBarValue = {props.setSearchBarValue}
+        />
+        <div className='MainContent' >
             <Sidebar
                 project = {props.project}
             />
-            <div className = 'TaskContent'>
+            {props.searchValue == "" ? <div className = 'TaskContent'>
               <div className='TaskContentBottomHeading'>
                 <h1>My Projects</h1>
               </div>
@@ -158,10 +179,24 @@ export default function AllProjects(props) {
                 )
               }
               <div className='TaskContentBottomAllProject'>
-              {showItems()}
+              {/* {showItems()} */}
               </div>
-            </div>
+            </div> : 
+               <div className = 'TaskContent'>
+                <div className='TaskContentBottomHeading'>
+                  <h1>Search Results for {props.searchValue}</h1>
+                </div>
+              </div>
+            }
         </div>
     </>
   )
 }
+
+// function searchedProjectDisplay(){
+//   return(
+//     <div className='TaskContentBottomHeading'>
+//       <h1>Search Results</h1>
+//     </div>
+//   )
+// }

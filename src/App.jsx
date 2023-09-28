@@ -83,6 +83,7 @@ const [userName,setUserName] = useState("Lindsley Alison");
 const [modalShow,setModalShow] = useState(false);
 const [passwordModel,setPasswordModel] = useState(true);
 const [loggedIn, setIsLoggedIn] = useState(false);
+const [searchVal,setSearchVal] = useState("")
 
 const date = new Date();
 let day = date.getDate();
@@ -96,6 +97,9 @@ const checkTask = (itemIndex)=>{
   setTask(newTasks)
 }
 
+const setSearchBarInput = (value) => {
+  setSearchVal(value)
+}
 // const keyCloak = new Keycloak({
 //   url: "http://localhost:8080/auth",
 //   realm: "karthikrealm",
@@ -138,6 +142,7 @@ useEffect( () => {
             fullName = "Lindsley Alisson"
             position = "UI Designer"
             profileImg = {Lindsley}
+            setSearchBarValue = {setSearchBarInput}
             />
             <div className='MainContent'>
               <Sidebar
@@ -235,6 +240,8 @@ useEffect( () => {
         <AllProjects
           project = {project}
           currentUser = {userName}
+          searchValue = {searchVal}
+          setSearchBarValue = {setSearchBarInput}
         />
       }/>
       <Route path='/UserDetails' element={

@@ -15,7 +15,8 @@ export default function Header(props) {
           alert('clicked')
           navigate('/AllProjects')
         }}><i class = "fa fa-search"></i></button>
-        <input type='text' placeholder='Search your project,task,etc...'/>
+        <input type='text' placeholder='Search your project,task,etc...'
+        onChange ={(e) => props.setSearchBarValue(e.target.value)} />
       </div>
       <div className='UserInfo'>
           <img src = {props.profileImg} alt=''/>

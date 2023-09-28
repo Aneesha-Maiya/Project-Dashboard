@@ -1,32 +1,29 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {Modal, Button, Form} from 'react-bootstrap'
 import {Link,useNavigate} from 'react-router-dom'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faHome} from '@fortawesome/free-solid-svg-icons'
 import {useForm} from 'react-hook-form'
 
-const baseUrl = "test"
-const APIResponse = new Map()
-APIResponse.set("NewLogin",true)
-APIResponse.set("datasRequired",["discord","github"])
-APIResponse.set("userRole","Member/Admin")
+import API_Response from '../src/APIResponse.json'
+// const baseUrl = "test"
+// const APIResponse = new Map()
+// APIResponse.set("NewLogin",true)
+// APIResponse.set("datasRequired",["discord","github"])
+// APIResponse.set("userRole","Member/Admin")
 
 let ToolNameRequiredArray = []
-let DiscordReq = false
-let GithubReq = false
-let AzureReq = false
-let LoginDone = false
 
-APIResponse.forEach((value,key) => {
-  console.log(`${key} = ${value}`);
-  console.log(value)
-  if(key=="datasRequired"){  
-    ToolNameRequiredArray = value
-  }
-  if(key=="NewLogin"){
-    LoginDone = value
-  }
-});
+// APIResponse.forEach((value,key) => {
+//   console.log(`${key} = ${value}`);
+//   console.log(value)
+//   if(key=="datasRequired"){  
+//     ToolNameRequiredArray = value
+//   }
+//   if(key=="NewLogin"){
+//     LoginDone = value
+//   }
+// });
 
 var APIResponseFetch = []
 async function getDataAsync(){
@@ -53,15 +50,15 @@ let enteredValue = {
   azureDevopsUsername: "",
 }
 let testValue = {
-  title: "",
-  // body: "",
+  title: "ha",
+  body: "haha",
 }
 let option = {
   method: 'POST',
   headers: {
-    'Content-Type' : 'application/json;charset=utf-8'
+    'Content-Type' : 'application/json; charset=UTF-8'
   },
-  body: JSON.stringify(testValue)
+  body: JSON.stringify(testValue),
 }
 
 for (let i = 0; i < ToolNameRequiredArray.length; i++) {
@@ -84,6 +81,22 @@ export default function UserDetails(props) {
   }
   const navigate = useNavigate()
   const {register,watch,handleSubmit,formState:{errors}} = useForm({defaultValues},)
+  const [Response, setResponse] = useState(API_Response)
+  let DiscordReq = false
+  let GithubReq = false
+  let AzureReq = false
+  let LoginDone = Response[0].newLogin
+  for (let i = 0; i < Response[0].datasRequired.length; i++) {
+    if(Response[0].datasRequired[i].toLowerCase() == "discord"){
+      DiscordReq = true
+    }
+    else if(Response[0].datasRequired[i].toLowerCase() == "github"){
+      GithubReq = true
+    }
+    else if(Response[0].datasRequired[i].toLowerCase() == "azure"){
+      AzureReq = true
+    }
+  }
   return (
     <>
     {LoginDone ? <Modal  
@@ -105,16 +118,39 @@ export default function UserDetails(props) {
                     enteredValue.githubUsername = d.githubUsername
                     enteredValue.azureDevopsUsername = d.azureDevopsUsername
                     testValue.title = d.discordUsername
+                    testValue.body = d.githubUsername
                     console.log(d)
+                    console.log(testValue)
                     // navigate('/')
-                    fetch('https://dummyjson.com/posts/add',option)
-                    .then(res => {
-                      res.json()
-                      console.log(res)
-                    })
-                    .then( data =>
-                      console.log("Data after submit: "+ data)
-                    )
+                    // fetch('https://jsonplaceholder.typicode.com/posts',{
+                    // method: 'POST',
+                    // headers: {
+                    //   'Content-Type' : 'application/json; charset=UTF-8'
+                    // },
+                    // body: JSON.stringify({
+                    //   title: d.discordUsername,
+                    //   body: d.githubUsername
+                    // }),
+                    // })
+                    // .then(res => {
+                    //   console.log(res.json())
+                    // })
+                    // .then( function(data){
+                    //   console.log("Data after submit: "+ data)
+                    // }
+                    // )
+                    // .catch(error => console.log(error))
+                    async () => {
+                      try{
+                        const res = await fetch('https://jsonplaceholder.typicode.com/posts',option,)
+                        console.log(res)
+                        const resData = await res.json()
+                        console.log(resData);
+                      }
+                      catch(err){
+                        console.log(err.message)
+                      }
+                    }
                 }
               )
         }>
