@@ -104,7 +104,6 @@ body{
 }
 
 .SideBarContent{
-  background-color: white;
   width:20%;
   height: 100%;
   margin: 0.5vw;
@@ -142,7 +141,7 @@ body{
   background-color: #3b30a6;
 }
 .SideBarContent .SideBarList a:link, a:visited{
-  background-color: dodgerblue;
+  background-color: #3b30a6;
   color: white;
   text-decoration: none;
   border-radius: 1vw;
@@ -479,6 +478,15 @@ body{
   font-weight: 600;
   padding: 1vw;
   margin: 0vw;
+}
+.TaskContentBottomHeadingMessage h1{
+  display: grid;
+  padding: 1vw 1vw;
+  grid-template-columns: 50% 50%;
+  align-items: center;
+  font-size: 1.5vw;
+  font-weight: bold;
+  color: darkred;
 }
 
 /*MyModal css rules*/

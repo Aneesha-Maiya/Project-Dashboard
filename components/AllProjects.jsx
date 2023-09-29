@@ -101,6 +101,15 @@ export default function AllProjects(props) {
     }
     setSearchedProjectList()
   },[props.searchValue])
+  // const searchedProjectDisplay = () => {
+  //   alert("Search display")
+  //   return (
+  //   <div className = 'TaskContent'>
+  //   <div className='TaskContentBottomHeading'>
+  //     <h1>Search Results for {props.searchValue}</h1>
+  //   </div>
+  //   </div> )
+  // }
   return (
     <>
         <Header 
@@ -182,10 +191,34 @@ export default function AllProjects(props) {
               {/* {showItems()} */}
               </div>
             </div> : 
-               <div className = 'TaskContent'>
+              <div className = 'TaskContent'>
                 <div className='TaskContentBottomHeading'>
-                  <h1>Search Results for {props.searchValue}</h1>
+                  <h1>Search Results for '{props.searchValue}'</h1>
                 </div>
+                {projectsSearched.length > 0 ? <div className='TaskContentBottomAllProject'>
+                {
+                  projectsSearched.map((item,index)=>{
+                    return(
+                      <Project
+                        name = {item.name}
+                        deadline = {item.deadline}
+                        numberOfTasks = {item.numberOfTasks}
+                        numberOfTasksCompleted = {item.numberOfTasksCompleted}
+                        numberOfMembers = {item.numberOfMembers}
+                        id = {item.id}
+                        favorite = {item.isFavorite}
+                        logo = {item.logo}
+                        sharedBy = {item.sharedBy.userName}
+                        currentUser = {props.currentUser}
+                      /> 
+                    )
+                  })
+                }
+                </div> : 
+                  <div className='TaskContentBottomHeadingMessage'>
+                  <h1>No Search Result found for '{props.searchValue}'! </h1>
+                  </div>
+                }
               </div>
             }
         </div>
