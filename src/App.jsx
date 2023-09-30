@@ -17,6 +17,7 @@ import AllProjects from '../components/AllProjects'
 import MyModal from '../components/MyModal'
 import Password from '../components/Password'
 import UserDetails from '../components/UserDetails'
+import AuthContext from './contexts/authContext'
 
 import Lindsley from '../image/Lindsley.jfif'
 import Aaron from '../image/Aaron.jfif'
@@ -28,7 +29,7 @@ import Amelia from '../image/Amelia.jpg'
 // import DribbleShot from '../image/DribbleShot.avif'
 // import UiKit from '../image/UiKit.jfif'
 // import SmartCity from '../image/SmartCity.jpg'
-
+const keyCloak = new Keycloak('/keycloak.json')
 export default function App() {
   const TaskArray = [
     {
@@ -84,6 +85,7 @@ const [modalShow,setModalShow] = useState(false);
 const [passwordModel,setPasswordModel] = useState(true);
 const [loggedIn, setIsLoggedIn] = useState(false);
 const [searchVal,setSearchVal] = useState("")
+const [kcToken,setkcToken] = useState("") 
 
 const date = new Date();
 let day = date.getDate();
@@ -105,15 +107,17 @@ const setSearchBarInput = (value) => {
 //   realm: "karthikrealm",
 //   clientId: "bcauth"
 // });
-const keyCloak = new Keycloak('/keycloak.json')
+
+let keycloakToken = null
 const checkKeyloak = async () => {
   try {
     const authenticated = await keyCloak.init({onLoad:"login-required"});
     console.log(`User is ${authenticated ? 'authenticated' : 'not authenticated'}`);
     console.log("client", keyCloak);
     console.log(keyCloak.token)
+    setkcToken(keyCloak.token)
   } catch (error) {
-    // console.error('Failed to initialize adapter:', error);
+    console.error('Failed to initialize adapter:', error);
   }
 }
 const isCalled = useRef(false);
@@ -123,6 +127,7 @@ useEffect( () => {
   isCalled.current = true;
    checkKeyloak();
 }, [])
+alert("token value is" + kcToken)
   return (
     <>
       <Routes>
@@ -245,10 +250,13 @@ useEffect( () => {
         />
       }/>
       <Route path='/UserDetails' element={
-        <UserDetails
+        <AuthContext.Provider value={{token: "123" }}>
+          <UserDetails
           show = {passwordModel}
           onHide = {()=>setPasswordModel(false)}
-        />
+          // token = {"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJlU3NBaU81ZTFHUkJsNVJjbmZvR0hRc1lqZ2tvRGtxdURtT3BKMXM2VjYwIn0.eyJleHAiOjE2OTYwOTA5MjMsImlhdCI6MTY5NjA5MDYyMywiYXV0aF90aW1lIjoxNjk2MDg4Mzk5LCJqdGkiOiI0MjlkNmJiZC02MjFhLTQyNGItYmYwNS1lYzZjNzY3YzQxMGQiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXV0aC9yZWFsbXMva2FydGhpa3JlYWxtIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjJlOTE4Y2RhLWMwMTgtNDkyZS1hNWQ2LTIwNmVjNmU4N2Q3YyIsInR5cCI6IkJlYXJlciIsImF6cCI6ImJjYXV0aCIsIm5vbmNlIjoiOTQ2ZjBiYTQtZWRhZC00ZGYyLWJmZjYtZGMyZDA1YTZiYzNlIiwic2Vzc2lvbl9zdGF0ZSI6ImNkOTg0N2Q3LTAwNjYtNDU3Yy1iOTUxLWJhMzcwNmU3ZjY4MSIsImFjciI6IjAiLCJhbGxvd2VkLW9yaWdpbnMiOlsiKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsIm5hbWUiOiJKb2huIERvZSIsInByZWZlcnJlZF91c2VybmFtZSI6InVzZXIxIiwibG9jYWxlIjoiZW4iLCJnaXZlbl9uYW1lIjoiSm9obiIsImZhbWlseV9uYW1lIjoiRG9lIiwiZW1haWwiOiJ1c2VyMUB0ZXN0LmdtYWlsLmNvbSJ9.MbkRlbEqmPTVAJETzb__MRpR2_hBqYc-onH98WvUQbsp-ahKQLK-X84GlBaPwfg479uLtUqdJOKEaZx6ARtQBE8iUVcnshSnfglYYP8GLrUPWdwUnI2jb95J46oHZ-aV24XmBzUwsBvmuGIIrQ7LIwdzWwVbEygW6sKNwOAsa6qMQ0hufWVYX6-JEKbm4Ds1y-kWXqHFYuFA5HkxEzK47G7iHcba0VjlKlfPH_c4eoNL4Ae-FlKmEpKPw51aKzdz9-Ii-WYLLAbK5yJNJeV3e7bMKQHYmxNW5bxUogxLxvNJuJn0lE63q0v_TpPj42t7MpApQ8vuCaSXQ91JfdH-Fw"}
+          />
+        </AuthContext.Provider>
       }>
       </Route>
       </Routes>

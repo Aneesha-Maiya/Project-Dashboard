@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState,useContext} from 'react'
 import {Modal, Button, Form} from 'react-bootstrap'
 import {Link,useNavigate} from 'react-router-dom'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faHome} from '@fortawesome/free-solid-svg-icons'
 import {useForm} from 'react-hook-form'
+import axios from 'axios'
+import AuthContext from '../src/contexts/authContext'
 
 import API_Response from '../src/APIResponse.json'
-// const baseUrl = "test"
+const baseUrl = "http://e82a-106-51-171-133.ngrok-free.app/"
 // const APIResponse = new Map()
 // APIResponse.set("NewLogin",true)
 // APIResponse.set("datasRequired",["discord","github"])
@@ -26,23 +28,6 @@ let ToolNameRequiredArray = []
 // });
 
 var APIResponseFetch = []
-async function getDataAsync(){
-  const res = await fetch('https://jsonplaceholder.typicode.com/posts')
-  console.log("Response is: "+res)
-  const data = await res.json()
-  console.log("Data is : "+JSON.stringify(data[0]))
-}
-getDataAsync()
-
-fetch('https://jsonplaceholder.typicode.com/posts')
-.then(res => {
-  return res.json()
-})
-.then(data => {
-  console.log(data[0])
-}).catch(error => {
-  console.log(error)
-})
 
 let enteredValue = {
   discordUsername: "",
@@ -80,6 +65,7 @@ export default function UserDetails(props) {
     azureDevopsUsername: "",
   }
   const navigate = useNavigate()
+  const auth = useContext(AuthContext)
   const {register,watch,handleSubmit,formState:{errors}} = useForm({defaultValues},)
   const [Response, setResponse] = useState(API_Response)
   let DiscordReq = false
@@ -97,6 +83,42 @@ export default function UserDetails(props) {
       AzureReq = true
     }
   }
+//Getting data from baseUrl using async await
+  async function getDataAsync(){
+    const res = await fetch(`${baseUrl}api/User/ProcessUserLogin?token=${props.token}`)
+    console.log("Response is: "+res)
+    // const data = await res.json()
+    // console.log("Data is : "+JSON.stringify(data))
+  }
+  getDataAsync()
+//Getting data from baseUrl using fetch then
+fetch(`${baseUrl}api/User/ProcessUserLogin?token=${props.token}`)
+.then(res => {
+  console.log(res)
+  console.log("data :" + res.data)
+}).catch(error => {
+  console.log(error)
+})
+//Getting data from baseUrl using axios
+useEffect(()=>{
+  axios.get(`${baseUrl}api/User/ProcessUserLogin?token=${auth.token}`)
+  .then((response) => {
+    console.log("Response from Axios(get): "+ JSON.stringify(response))
+    console.log("data from axios(get): "+response.data)
+})
+  .catch((error) => console.log("error msg: "+error))
+},[])
+//Posting data to baseUrl using axios
+useEffect(()=>{
+  axios.post(`${baseUrl}api/User/ProcessUserLogin?token=${props.token}`)
+  .then((response) => {
+    console.log("Response from Axios (Post): "+ JSON.stringify(response))
+    console.log("data from axios (Post): "+response.data)
+})
+  .catch((error) => console.log("error msg: "+error))
+},[])
+alert(auth.token)
+console.log("printing props.token "+props.token)
   return (
     <>
     {LoginDone ? <Modal  
