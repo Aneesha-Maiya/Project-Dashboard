@@ -127,7 +127,7 @@ useEffect( () => {
   isCalled.current = true;
    checkKeyloak();
 }, [])
-alert("token value is" + kcToken)
+// console.log("token value is (App.js): "+ kcToken)
   return (
     <>
       <Routes>
@@ -250,11 +250,11 @@ alert("token value is" + kcToken)
         />
       }/>
       <Route path='/UserDetails' element={
-        <AuthContext.Provider value={{token: "123" }}>
+        <AuthContext.Provider value={{token: kcToken }}>
           <UserDetails
           show = {passwordModel}
           onHide = {()=>setPasswordModel(false)}
-          // token = {"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJlU3NBaU81ZTFHUkJsNVJjbmZvR0hRc1lqZ2tvRGtxdURtT3BKMXM2VjYwIn0.eyJleHAiOjE2OTYwOTA5MjMsImlhdCI6MTY5NjA5MDYyMywiYXV0aF90aW1lIjoxNjk2MDg4Mzk5LCJqdGkiOiI0MjlkNmJiZC02MjFhLTQyNGItYmYwNS1lYzZjNzY3YzQxMGQiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXV0aC9yZWFsbXMva2FydGhpa3JlYWxtIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjJlOTE4Y2RhLWMwMTgtNDkyZS1hNWQ2LTIwNmVjNmU4N2Q3YyIsInR5cCI6IkJlYXJlciIsImF6cCI6ImJjYXV0aCIsIm5vbmNlIjoiOTQ2ZjBiYTQtZWRhZC00ZGYyLWJmZjYtZGMyZDA1YTZiYzNlIiwic2Vzc2lvbl9zdGF0ZSI6ImNkOTg0N2Q3LTAwNjYtNDU3Yy1iOTUxLWJhMzcwNmU3ZjY4MSIsImFjciI6IjAiLCJhbGxvd2VkLW9yaWdpbnMiOlsiKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsIm5hbWUiOiJKb2huIERvZSIsInByZWZlcnJlZF91c2VybmFtZSI6InVzZXIxIiwibG9jYWxlIjoiZW4iLCJnaXZlbl9uYW1lIjoiSm9obiIsImZhbWlseV9uYW1lIjoiRG9lIiwiZW1haWwiOiJ1c2VyMUB0ZXN0LmdtYWlsLmNvbSJ9.MbkRlbEqmPTVAJETzb__MRpR2_hBqYc-onH98WvUQbsp-ahKQLK-X84GlBaPwfg479uLtUqdJOKEaZx6ARtQBE8iUVcnshSnfglYYP8GLrUPWdwUnI2jb95J46oHZ-aV24XmBzUwsBvmuGIIrQ7LIwdzWwVbEygW6sKNwOAsa6qMQ0hufWVYX6-JEKbm4Ds1y-kWXqHFYuFA5HkxEzK47G7iHcba0VjlKlfPH_c4eoNL4Ae-FlKmEpKPw51aKzdz9-Ii-WYLLAbK5yJNJeV3e7bMKQHYmxNW5bxUogxLxvNJuJn0lE63q0v_TpPj42t7MpApQ8vuCaSXQ91JfdH-Fw"}
+          token = {"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJlU3NBaU81ZTFHUkJsNVJjbmZvR0hRc1lqZ2tvRGtxdURtT3BKMXM2VjYwIn0.eyJleHAiOjE2OTYxNjcyNTUsImlhdCI6MTY5NjE2Njk1NSwiYXV0aF90aW1lIjoxNjk2MTY1MDU0LCJqdGkiOiJmZjJhNTE0Mi1iZmVlLTQyYmUtYTg0Ni1iMDc3MDVjM2Q0ZTYiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXV0aC9yZWFsbXMva2FydGhpa3JlYWxtIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjJlOTE4Y2RhLWMwMTgtNDkyZS1hNWQ2LTIwNmVjNmU4N2Q3YyIsInR5cCI6IkJlYXJlciIsImF6cCI6ImJjYXV0aCIsIm5vbmNlIjoiNmQxZDlkZGUtMjZiYS00YzcwLWJmY2UtNjNjNmMyYmNjMTM5Iiwic2Vzc2lvbl9zdGF0ZSI6ImQ2OWRjZDMwLTc4ZGMtNGE0Ni1iYzczLTg4MmQ5N2IzM2U0YiIsImFjciI6IjAiLCJhbGxvd2VkLW9yaWdpbnMiOlsiKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsIm5hbWUiOiJKb2huIERvZSIsInByZWZlcnJlZF91c2VybmFtZSI6InVzZXIxIiwibG9jYWxlIjoiZW4iLCJnaXZlbl9uYW1lIjoiSm9obiIsImZhbWlseV9uYW1lIjoiRG9lIiwiZW1haWwiOiJ1c2VyMUB0ZXN0LmdtYWlsLmNvbSJ9.Com1mwmaUYybozi3eC3x0uMqF8f6uu9_zljlzZRfPIHpcs_KxeJEHMZf5b-jhD8b-UcpF_enScSs2Xe85m08JsCo3iX-r6W3ywvUfkH085L6QgQ3aIrdbLlEoOwoDhRuBpV8nv7120C55OOVstO3WFcJESJ5u52VWBIKUjjlbz7PuIHyhzrTOEehVks69Je6UFtqzOYD5WRmG5xSmMRE1X3lm99gj8p94N9BE4kWY23uO1xC9lHmgwvAa-846OFR0a5-dZBmhItTKQNGE6VIHDdPeimI2HpaPXpK9ywQrxXf6jOTN-IyHgAG9TWixjs-KgRxAhXXNJjcXjm5WCf0oQ"}
           />
         </AuthContext.Provider>
       }>

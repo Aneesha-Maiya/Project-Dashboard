@@ -8,7 +8,8 @@ import axios from 'axios'
 import AuthContext from '../src/contexts/authContext'
 
 import API_Response from '../src/APIResponse.json'
-const baseUrl = "http://e82a-106-51-171-133.ngrok-free.app/"
+const baseUrl = "http://26.172.63.204:5278"
+//http://e82a-106-51-171-133.ngrok-free.app/
 // const APIResponse = new Map()
 // APIResponse.set("NewLogin",true)
 // APIResponse.set("datasRequired",["discord","github"])
@@ -84,33 +85,33 @@ export default function UserDetails(props) {
     }
   }
 //Getting data from baseUrl using async await
-  async function getDataAsync(){
-    const res = await fetch(`${baseUrl}api/User/ProcessUserLogin?token=${props.token}`)
-    console.log("Response is: "+res)
-    // const data = await res.json()
-    // console.log("Data is : "+JSON.stringify(data))
-  }
-  getDataAsync()
-//Getting data from baseUrl using fetch then
-fetch(`${baseUrl}api/User/ProcessUserLogin?token=${props.token}`)
-.then(res => {
-  console.log(res)
-  console.log("data :" + res.data)
-}).catch(error => {
-  console.log(error)
-})
+//   async function getDataAsync(){
+//     const res = await fetch(`${baseUrl}api/User/ProcessUserLogin?token=${auth.token}`)
+//     console.log("Response is: "+res)
+//     // const data = await res.json()
+//     // console.log("Data is : "+JSON.stringify(data))
+//   }
+//   getDataAsync()
+// //Getting data from baseUrl using fetch then
+// fetch(`${baseUrl}api/User/ProcessUserLogin?token=${auth.token}`)
+// .then(res => {
+//   console.log(res)
+//   console.log("data :" + res.data)
+// }).catch(error => {
+//   console.log(error)
+// })
 //Getting data from baseUrl using axios
-useEffect(()=>{
-  axios.get(`${baseUrl}api/User/ProcessUserLogin?token=${auth.token}`)
-  .then((response) => {
-    console.log("Response from Axios(get): "+ JSON.stringify(response))
-    console.log("data from axios(get): "+response.data)
-})
-  .catch((error) => console.log("error msg: "+error))
-},[])
+// useEffect(()=>{
+//   axios.get(`${baseUrl}api/User/ProcessUserLogin?token=${auth.token}`)
+//   .then((response) => {
+//     console.log("Response from Axios(get): "+ JSON.stringify(response))
+//     console.log("data from axios(get): "+response.data)
+// })
+//   .catch((error) => console.log("error msg: "+error))
+// },[])
 //Posting data to baseUrl using axios
 useEffect(()=>{
-  axios.post(`${baseUrl}api/User/ProcessUserLogin?token=${props.token}`)
+  axios.post(`${baseUrl}/api/User/ProcessUserLogin?token=${props.token}`)
   .then((response) => {
     console.log("Response from Axios (Post): "+ JSON.stringify(response))
     console.log("data from axios (Post): "+response.data)
@@ -118,7 +119,7 @@ useEffect(()=>{
   .catch((error) => console.log("error msg: "+error))
 },[])
 alert(auth.token)
-console.log("printing props.token "+props.token)
+console.log("printing props.token "+auth.token)
   return (
     <>
     {LoginDone ? <Modal  

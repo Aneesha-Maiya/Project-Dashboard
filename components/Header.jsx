@@ -12,7 +12,6 @@ export default function Header(props) {
       </div>
       <div className='SearchBar'>
         <button onClick={()=>{
-          alert('clicked')
           navigate('/AllProjects')
         }}><i class = "fa fa-search"></i></button>
         <input type='text' placeholder='Search your project,task,etc...'
