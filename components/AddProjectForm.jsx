@@ -3,14 +3,35 @@ import { useState } from 'react'
 import {Form ,Button} from 'react-bootstrap'
 import {useForm} from 'react-hook-form'
 
+import newProjectInfoContext from '../src/contexts/newprojectInfoContext'
+
 export default function AddProjectForm() {
   const [validated ,setValidated] = useState(false)
+  const [userName,setUserName] = useState("")
+  const [projectName,setProjectName] = useState("")
+  const [techUsed,setTechUsed] = useState("")
+  const [userID,setUserID] = useState("")
+
   const defaultValues = {
     projectName:"",
     userName: "",
     userID: "",
     projectSelect: 1,
     projectDesc: "",
+  }
+  const outputValues = {
+    projectName:"",
+    userName: "",
+    userID: "",
+    projectSelect: 1,
+    projectDesc: "",
+  }
+  const addProjectAPIResponse = {
+    action: "openedCodeBlock",
+    projectId:{},
+    url: "https://www.geeksforgeeks.org/",
+    webAppUrl: "https://www.youtube.com/",
+    type: "Cs/js/webapp",
   }
   const handleFormSubmit = (event) =>{
     alert("Form submitted")
@@ -26,8 +47,22 @@ export default function AddProjectForm() {
   return (
     <Form noValidate onSubmit={
         handleSubmit(
-        (d)=>{
-            console.log(d)
+        (data)=>{
+            console.log(data)
+            // setProjectName(d.projectName)
+            // setTechUsed(d.projectSelect)
+            outputValues.projectName = data.projectName
+            outputValues.projectSelect = data.projectSelect
+            outputValues.userID = data.userID
+            outputValues.userName = data.userName
+            console.log("project name -> ", outputValues.projectName)
+            console.log("tech used -> ",outputValues.projectSelect)
+            if(data.projectSelect == "WebApp"){
+                window.electronAPI.sendWebURL(addProjectAPIResponse)
+            }
+            else{
+                window.electronAPI.sendURL(addProjectAPIResponse)
+            }
             alert("Form Submitted Successfully")
         })
         } validated={validated}>
@@ -38,6 +73,7 @@ export default function AddProjectForm() {
                 type='text'
                 placeholder='Enter Project Name'
                 className='FormControlElements'
+                onChange={(event) => setProjectName(event.target.value)}
                 id = 'projectName'
                 {
                     ...register('projectName',{
@@ -59,6 +95,7 @@ export default function AddProjectForm() {
                 placeholder='Enter UserName'
                 className='FormControlElements'
                 id = 'userName'
+                onChange={(event) => setUserName(event.target.value)}
                 {
                     ...register('userName',{
                         required: "UserName is required"
@@ -79,6 +116,7 @@ export default function AddProjectForm() {
                 placeholder='Enter UserID'
                 className='FormControlElements'
                 id = "userID"
+                onChange={(event) => setUserID(event.target.value)}
                 {
                     ...register('userID',{
                         required: "userID is required"
@@ -93,15 +131,20 @@ export default function AddProjectForm() {
         </Form.Group>
         <Form.Group>
             <Form.Label className='FormControlElementLabels'>Project Technology Used</Form.Label>
-            <Form.Select className='FormControlElements' id="projectSelect" required {
+            <Form.Select 
+                className='FormControlElements' 
+                id="projectSelect" 
+                required 
+                onChange={(event) => setTechUsed(event.target.value)}
+                {
                     ...register('projectSelect',{
                         required: "Please select atleast one option"
                     })
                 }>
-                <option value="1">Java</option>
-                <option value="2">Python</option>
-                <option value="3">C++</option>
-                
+                <option value="Java">Java</option>
+                <option value="Python">Python</option>
+                <option value="C++">C++</option>
+                <option value="WebApp">Web App</option>
             </Form.Select>
             {/* <Form.Control.Feedback>Looks Good!</Form.Control.Feedback>
             <Form.Control.Feedback type = "invalid">UserID is required</Form.Control.Feedback> */}

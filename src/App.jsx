@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useContext } from 'react'
 import Calendar from 'react-calendar'
 import {Button} from 'react-bootstrap'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
@@ -18,6 +18,7 @@ import MyModal from '../components/MyModal'
 import Password from '../components/Password'
 import UserDetails from '../components/UserDetails'
 import AuthContext from './contexts/authContext'
+import newProjectInfoContext from './contexts/newprojectInfoContext'
 
 import Lindsley from '../image/Lindsley.jfif'
 import Aaron from '../image/Aaron.jfif'
@@ -87,6 +88,8 @@ const [loggedIn, setIsLoggedIn] = useState(false);
 const [searchVal,setSearchVal] = useState("")
 const [kcToken,setkcToken] = useState("") 
 
+const addProjectInfo = useContext(newProjectInfoContext)
+
 const date = new Date();
 let day = date.getDate();
 let month = date.getMonth();
@@ -128,6 +131,7 @@ useEffect( () => {
    checkKeyloak();
 }, [])
 // console.log("token value is (App.js): "+ kcToken)
+//console.log("added Project details info: ",addProjectInfo)
   return (
     <>
       <Routes>
