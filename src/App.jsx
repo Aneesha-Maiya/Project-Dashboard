@@ -4,7 +4,9 @@ import {Button} from 'react-bootstrap'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faPlus,faPenToSquare} from '@fortawesome/free-solid-svg-icons'
 import {Routes,Route,Link} from "react-router-dom"
+import {useIdleTimer} from "react-idle-timer"
 import Keycloak from 'keycloak-js'
+import axios from 'axios'
 
 import ProjectData from './Project.json'
 import Header from '../components/Header'
@@ -87,6 +89,9 @@ const [passwordModel,setPasswordModel] = useState(true);
 const [loggedIn, setIsLoggedIn] = useState(false);
 const [searchVal,setSearchVal] = useState("")
 const [kcToken,setkcToken] = useState("") 
+const [appState,setAppState] = useState("Active")
+const [count,setCount] = useState(0)
+const [remaining,setRemaining] = useState(0)
 
 const addProjectInfo = useContext(newProjectInfoContext)
 
@@ -130,8 +135,54 @@ useEffect( () => {
   isCalled.current = true;
    checkKeyloak();
 }, [])
+  const onIdle = () => {
+    setAppState('Idle')
+  }
+
+  const onActive = () => {
+    setAppState('Active')
+  }
+
+  const onAction = () => {
+    setCount(count + 1)
+  }
+  const { getRemainingTime } = useIdleTimer({
+    onIdle,
+    onActive,
+    onAction,
+    timeout: 30_000,
+    throttle: 500
+  })
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRemaining(Math.ceil(getRemainingTime() / 1000))
+    }, 500)
+    if(appState == "Idle"){
+      alert("You have been idle for a long time!")
+      axios.post("https://jsonplaceholder.typicode.com/posts",{})
+      .then((response) => {
+        console.log("Response from Axios on Idle State(Post): "+ JSON.stringify(response))
+        console.log("data from axios (Post): "+response.data)
+      })
+      .catch((error) => console.log("error msg: "+error))
+    }
+    else{
+      alert("Welcome Back Again!")
+      axios.post("https://jsonplaceholder.typicode.com/posts",{})
+      .then((response) => {
+        console.log("Response from Axios on Active State(Post): "+ JSON.stringify(response))
+        console.log("data from axios (Post): "+response.data)
+      })
+      .catch((error) => console.log("error msg: "+error))
+    }
+    console.log("App state: ",appState)
+    return () => {
+      clearInterval(interval)
+    }
+  },[appState])
 // console.log("token value is (App.js): "+ kcToken)
 //console.log("added Project details info: ",addProjectInfo)
+
   return (
     <>
       <Routes>
