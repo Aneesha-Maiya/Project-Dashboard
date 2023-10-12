@@ -4,6 +4,7 @@ import Sidebar from './Sidebar'
 import Project from './Project'
 import {useEffect,useState} from 'react'
 import '../src/index.css'
+import axios from 'axios'
 
 import Lindsley from '../image/Lindsley.jfif'
 
@@ -110,6 +111,14 @@ export default function AllProjects(props) {
   //   </div>
   //   </div> )
   // }
+  useEffect(()=>{
+    axios.get("https://jsonplaceholder.typicode.com/posts")
+      .then((response) => {
+        console.log("Response from Axios for getting all projects of user(Get): "+ JSON.stringify(response))
+        console.log("data from axios (Get): "+response.data)
+      })
+      .catch((error) => console.log("error msg: "+error))
+  },[])
   return (
     <>
         <Header 

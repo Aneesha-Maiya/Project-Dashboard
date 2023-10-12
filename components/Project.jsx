@@ -3,6 +3,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import { faCheckCircle} from '@fortawesome/free-regular-svg-icons';
 import {faLink} from '@fortawesome/free-solid-svg-icons';
 import {ProgressBar} from 'react-bootstrap';
+import axios from 'axios';
 
 export default function Project(props) {
   let Choice = ''
@@ -20,13 +21,21 @@ export default function Project(props) {
   Choice = 'ProjectContentItem5'
   else
   Choice = 'ProjectContent'
+  const projectNameClick = () => {
+    axios.get("https://jsonplaceholder.typicode.com/posts")
+      .then((response) => {
+        console.log("Response from Axios on clicking project name(get): "+ JSON.stringify(response))
+        console.log("data from axios (get): "+response.data)
+      })
+      .catch((error) => console.log("error msg: "+error))
+  }
   return (
     <>
         <div className={Choice}>
           <div className='ProjectContentInfo'>
             <img src = {props.logo} alt='no!'/>
             <div className='ProjectNameDate'>
-              <h3>{props.name}</h3>
+              <a href = "#" onClick={projectNameClick}><h3>{props.name}</h3></a>
               {props.sharedBy != props.currentUser && 
               <p>Shared By: {props.sharedBy.userName} ({props.sharedBy.userID})</p>}
               {/* {props.sharedBy!= props.currentUser &&

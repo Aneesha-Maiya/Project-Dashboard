@@ -134,6 +134,12 @@ useEffect( () => {
     return;
   isCalled.current = true;
    checkKeyloak();
+   axios.post("https://jsonplaceholder.typicode.com/posts",{})
+      .then((response) => {
+        console.log("Response from Axios after receiving token(Post): "+ JSON.stringify(response))
+        console.log("data from axios (Post): "+response.data)
+      })
+  .catch((error) => console.log("error msg: "+error))
 }, [])
   const onIdle = () => {
     setAppState('Idle')
@@ -150,7 +156,7 @@ useEffect( () => {
     onIdle,
     onActive,
     onAction,
-    timeout: 30_000,
+    timeout: 300_000,
     throttle: 500
   })
   useEffect(() => {
