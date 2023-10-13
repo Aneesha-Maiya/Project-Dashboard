@@ -2,6 +2,7 @@ import {React} from 'react'
 import { useState } from 'react'
 import {Form ,Button} from 'react-bootstrap'
 import {useForm} from 'react-hook-form'
+import axios from 'axios'
 
 import newProjectInfoContext from '../src/contexts/newprojectInfoContext'
 
@@ -57,13 +58,19 @@ export default function AddProjectForm() {
             outputValues.userName = data.userName
             console.log("project name -> ", outputValues.projectName)
             console.log("tech used -> ",outputValues.projectSelect)
+            axios.post("https://jsonplaceholder.typicode.com/posts",{})
+            .then((response) => {
+                console.log("Response from Axios after sending project details(Post): "+ JSON.stringify(response))
+                console.log("data from axios (Post): " + response.data)
+            })
+            .catch((error) => console.log("error msg: "+error))
+            alert("Form Submitted Successfully")
             if(data.projectSelect == "WebApp"){
                 window.electronAPI.sendWebURL(addProjectAPIResponse)
             }
             else{
                 window.electronAPI.sendURL(addProjectAPIResponse)
             }
-            alert("Form Submitted Successfully")
         })
         } validated={validated}>
         <Form.Group>

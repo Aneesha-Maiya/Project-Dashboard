@@ -287,7 +287,15 @@ useEffect( () => {
                   </div>
                 </div>
                 <div className='ProjectAddEditButton'>
-                      <Button variant='primary' className='ProjectButton' onClick={()=>setModalShow(true)}>
+                      <Button variant='primary' className='ProjectButton' onClick={()=>{
+                        setModalShow(true)
+                        axios.get("https://jsonplaceholder.typicode.com/posts")
+                        .then((response) => {
+                          console.log("Response from Axios before getting new project details(Get): "+ JSON.stringify(response))
+                          console.log("data from axios (Get): "+response.data)
+                        })
+                        .catch((error) => console.log("error msg: "+error))
+                        }}>
                         <FontAwesomeIcon icon={faPlus} className='ProjectButtonIcon'/>Add New Projects</Button>
                         <MyModal
                         show = {modalShow}
