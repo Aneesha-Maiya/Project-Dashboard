@@ -21,6 +21,13 @@ export default function Project(props) {
   Choice = 'ProjectContentItem5'
   else
   Choice = 'ProjectContent'
+  const projectInfoElectron = {
+    action: "openedCodeBlock",
+    projectId: props.id,
+    url: props.url,
+    webAppUrl: props.webUrl,
+    type: props.projectTech,
+  }
   const projectNameClick = () => {
     axios.get("https://jsonplaceholder.typicode.com/posts")
       .then((response) => {
@@ -28,6 +35,12 @@ export default function Project(props) {
         console.log("data from axios (get): "+response.data)
       })
       .catch((error) => console.log("error msg: "+error))
+      if(props.projectTech === "webapp"){
+        window.electronAPI.sendWebURL(projectInfoElectron)
+      }
+      else{
+        window.electronAPI.sendURL(projectInfoElectron)
+      }
   }
   return (
     <>

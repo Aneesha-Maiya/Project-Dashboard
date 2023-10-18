@@ -314,6 +314,7 @@ body{
   margin: 0.4vw 0.4vw 0vw 0.4vw;
   font-size: 1vw;
   font-weight: 800;
+  text-decoration: none;
 }
 .ProjectContentInfo .ProjectNameDate > p{
   font-size: 0.8vw;

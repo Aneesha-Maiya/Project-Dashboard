@@ -152,6 +152,9 @@ export default function AllProjects(props) {
                           favorite = {item.isFavorite}
                           logo = {item.logo}
                           sharedBy = {item.sharedBy.userName}
+                          projectTech = {item.projectTech}
+                          url = {item.url}
+                          webUrl = {item.webUrl}
                           currentUser = {props.currentUser}
                         />
                       ) //return
@@ -186,6 +189,9 @@ export default function AllProjects(props) {
                                 favorite = {item2.isFavorite}
                                 logo = {item2.logo}
                                 sharedBy = {item2.sharedBy}
+                                projectTech = {item2.projectTech}
+                                url = {item2.url}
+                                webUrl = {item2.webUrl}
                                 currentUser = {props.currentUser}
                             />
                         )
@@ -218,6 +224,9 @@ export default function AllProjects(props) {
                         favorite = {item.isFavorite}
                         logo = {item.logo}
                         sharedBy = {item.sharedBy.userName}
+                        projectTech = {item.projectTech}
+                        url = {item.url}
+                        webUrl = {item.webUrl}
                         currentUser = {props.currentUser}
                       /> 
                     )

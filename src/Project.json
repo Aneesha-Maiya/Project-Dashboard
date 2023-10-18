@@ -13,7 +13,10 @@
       "sharedBy" : {
         "userName" : "Lindsley Alison",
         "userID" : "7LN563"
-      }
+      },
+      "projectTech" : "webapp",
+      "url": "https://github.com/",
+      "webUrl": "https://in.bookmyshow.com/"
     },
     {
       "name" : "Dribble Shot",
@@ -28,7 +31,10 @@
       "sharedBy" : {
         "userName" : "Lindsley Alison",
         "userID" : "7LN563"
-      }
+      },
+      "projectTech" : "webapp",
+      "url": "https://github.com/",
+      "webUrl": "https://in.bookmyshow.com/"
     },
     {
       "name" : "Madiun Smartcity App",
@@ -43,7 +49,10 @@
       "sharedBy" : {
         "userName" : "Lindsley Alison",
         "userID" : "7LN563"
-      }
+      },
+      "projectTech" : "webapp",
+      "url": "https://github.com/",
+      "webUrl": "https://in.bookmyshow.com/"
     },
     {
       "name" : "Fintech Landing",
@@ -58,7 +67,10 @@
       "sharedBy" : {
         "userName" : "Lindsley Alison",
         "userID" : "7LN563"
-      }
+      },
+      "projectTech" : "webapp",
+      "url": "https://github.com/",
+      "webUrl": "https://in.bookmyshow.com/"
     },
     {
       "name" : "Logo Design",
@@ -73,7 +85,10 @@
       "sharedBy" : {
         "userName" : "Aaron Stanley",
         "userID" : "3AN432"
-      }
+      },
+      "projectTech" : "webapp",
+      "url": "https://github.com/",
+      "webUrl": "https://in.bookmyshow.com/"
     },
     {
       "name" : "Digital Banner Design",
@@ -88,7 +103,10 @@
       "sharedBy" : {
         "userName" : "Amelia Martinej",
         "userID" : "1AM456"
-      }
+      },
+      "projectTech" : "webapp",
+      "url": "https://github.com/",
+      "webUrl": "https://in.bookmyshow.com/"
     },
     {
       "name" : "Sales Management App",
@@ -103,7 +121,10 @@
       "sharedBy" : {
         "userName" : "Brian Artemayev",
         "userID" : "5BA093"
-      }
+      },
+      "projectTech" : "webapp",
+      "url": "https://github.com/",
+      "webUrl": "https://in.bookmyshow.com/"
     },
     {
       "name" : "Karnataka Tourism landing page",
@@ -118,7 +139,10 @@
       "sharedBy" : {
         "userName" : "Jessica Naomi",
         "userID" : "1JN067"
-      }
+      },
+      "projectTech" : "webapp",
+      "url": "https://github.com/",
+      "webUrl": "https://in.bookmyshow.com/"
     },
     {
       "name" : "Unreal Game Engine development",
@@ -133,7 +157,10 @@
       "sharedBy" : {
         "userName" : "Jessica Naomi",
         "userID" : "1JN067"
-      }
+      },
+      "projectTech" : "webapp",
+      "url": "https://github.com/",
+      "webUrl": "https://in.bookmyshow.com/"
     },
     {
       "name" : "Weather Forecast page",
@@ -148,7 +175,10 @@
       "sharedBy" : {
         "userName" : "Brian Artemayev",
         "userID" : "5BA093"
-      }
+      },
+      "projectTech" : "webapp",
+      "url": "https://github.com/",
+      "webUrl": "https://in.bookmyshow.com/"
     },
     {
       "name" : "Short Film animation",
@@ -163,6 +193,9 @@
       "sharedBy" : {
         "userName" : "Aaron Stanley",
         "userID" : "3AN432"
-      }
+      },
+      "projectTech" : "webapp",
+      "url": "https://github.com/",
+      "webUrl": "https://in.bookmyshow.com/"
     }
   ]

@@ -266,6 +266,9 @@ useEffect( () => {
                             favorite = {item.isFavorite}
                             logo = {item.logo}
                             sharedBy = {item.sharedBy.userName}
+                            projectTech = {item.projectTech}
+                            url = {item.url}
+                            webUrl = {item.webUrl}
                             currentUser = {userName}
                           />
                           ) // return
