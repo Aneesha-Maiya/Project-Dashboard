@@ -117,6 +117,7 @@ const setSearchBarInput = (value) => {
 // });
 
 let keycloakToken = null
+const baseURL = import.meta.env.VITE_BASE_URL
 const checkKeyloak = async () => {
   try {
     const authenticated = await keyCloak.init({onLoad:"login-required"});
@@ -134,7 +135,7 @@ useEffect( () => {
     return;
   isCalled.current = true;
    checkKeyloak();
-   axios.post("https://jsonplaceholder.typicode.com/posts",{})
+   axios.post(`${baseURL}/api/v0/`,{})
       .then((response) => {
         console.log("Response from Axios after receiving token(Post): "+ JSON.stringify(response))
         console.log("data from axios (Post): "+response.data)
@@ -165,7 +166,7 @@ useEffect( () => {
     }, 500)
     if(appState == "Idle"){
       alert("You have been idle for a long time!")
-      axios.post("https://jsonplaceholder.typicode.com/posts",{})
+      axios.post(`${baseURL}/api/v0/`,{})
       .then((response) => {
         console.log("Response from Axios on Idle State(Post): "+ JSON.stringify(response))
         console.log("data from axios (Post): "+response.data)
@@ -174,7 +175,7 @@ useEffect( () => {
     }
     else{
       alert("Welcome Back Again!")
-      axios.post("https://jsonplaceholder.typicode.com/posts",{})
+      axios.post(`${baseURL}/api/v0/`,{})
       .then((response) => {
         console.log("Response from Axios on Active State(Post): "+ JSON.stringify(response))
         console.log("data from axios (Post): "+response.data)
@@ -188,7 +189,10 @@ useEffect( () => {
   },[appState])
 // console.log("token value is (App.js): "+ kcToken)
 //console.log("added Project details info: ",addProjectInfo)
-
+useEffect(()=>{
+  const testEnv = import.meta.env.VITE_TEST
+  console.log("Test env variable is: ",testEnv)
+},[])
   return (
     <>
       <Routes>
@@ -292,7 +296,7 @@ useEffect( () => {
                 <div className='ProjectAddEditButton'>
                       <Button variant='primary' className='ProjectButton' onClick={()=>{
                         setModalShow(true)
-                        axios.get("https://jsonplaceholder.typicode.com/posts")
+                        axios.get(`${baseURL}/api/v0/`)
                         .then((response) => {
                           console.log("Response from Axios before getting new project details(Get): "+ JSON.stringify(response))
                           console.log("data from axios (Get): "+response.data)
