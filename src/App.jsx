@@ -21,6 +21,7 @@ import Password from '../components/Password'
 import UserDetails from '../components/UserDetails'
 import AuthContext from './contexts/authContext'
 import newProjectInfoContext from './contexts/newprojectInfoContext'
+import Example from '../components/example'
 
 import Lindsley from '../image/Lindsley.jfif'
 import Aaron from '../image/Aaron.jfif'
@@ -79,10 +80,11 @@ const teamMembersArray = [
   }
 ]
 const processUserLoginAPIRequest = {
-  "newLogin": false,
+  "newLogin": true,
   "datasRequired": null,
   "userRole": null
 }
+
 const [task,setTask] = useState(TaskArray);
 const [project,setProject] = useState(ProjectData);
 const [teamMember,setteamMember] = useState(teamMembersArray);
@@ -96,8 +98,13 @@ const [kcToken,setkcToken] = useState("")
 const [appState,setAppState] = useState("Active")
 const [count,setCount] = useState(0)
 const [remaining,setRemaining] = useState(0)
+const [newLogin, setNewLogin] = useState(processUserLoginAPIRequest.newLogin)
 
 const addProjectInfo = useContext(newProjectInfoContext)
+
+function changeLoginValue(value){
+  setNewLogin(value)
+}
 
 const date = new Date();
 let day = date.getDate();
@@ -200,8 +207,8 @@ useEffect(()=>{
   return (
     <>
       <Routes>
-      {processUserLoginAPIRequest.newLogin == true ? 
-          <Route path = '/Password' element = {
+      {/* {processUserLoginAPIRequest.newLogin == true ? 
+         <Route path='/Password' element = {
             <Password
               show = {passwordModel}
               onHide = {()=>setPasswordModel(false)}
@@ -209,8 +216,8 @@ useEffect(()=>{
               passwordSetModel = {setPasswordModel}
               processUserLoginAPIRequest = {processUserLoginAPIRequest}
             /> 
-        } />
-       : 
+          }/> 
+       :  */}
       <>
       {/* <Route path='/Password' element = {
       <Password
@@ -221,7 +228,17 @@ useEffect(()=>{
         processUserLoginAPIRequest = {processUserLoginAPIRequest}
       />
       }/> */}
-      
+      <Route path='/Password' element = {
+      <Password
+        show = {passwordModel}
+        onHide = {()=>setPasswordModel(false)}
+        passwordModel = {passwordModel}
+        passwordSetModel = {setPasswordModel}
+        processUserLoginAPIRequest = {processUserLoginAPIRequest}
+        // newLoginAPI = {processUserLoginAPIRequest.newLogin}
+        // changeNewLogin = {()=>changeLoginValue(value)}
+      />
+      }/>
         <Route path='/' element = 
         {
           <>
@@ -269,6 +286,7 @@ useEffect(()=>{
                 <div className='TaskContentBottomHeading'>
                   <h1 className='ProjectsHeading'>Ongoing Projects</h1>
                   <Link to="/AllProjects"><a href='#'><p>All Projects</p></a></Link>
+                  <Link to="/example"><a href='#'><p>Example</p></a></Link>
                   <h1 className='TeamMembers'>Team Members</h1>
                 </div>
                 <div className='TaskContentBottom'>
@@ -353,7 +371,14 @@ useEffect(()=>{
         </AuthContext.Provider>
       }>
       </Route> 
-      </>}
+      <Route path = '/example' element = {
+        <>
+          <Example/>
+        </>
+      }> 
+
+      </Route>
+      </>
       </Routes>
     </>
   )

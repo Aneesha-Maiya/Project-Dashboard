@@ -38,6 +38,7 @@ export default function Password(props) {
               (d)=>{
                   props.passwordSetModel(true)
                   console.log(d)
+                  // props.changeNewLogin(!props.newLoginAPI)
                   navigate('/UserDetails')
               }
             )

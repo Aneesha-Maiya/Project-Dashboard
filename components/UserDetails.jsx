@@ -118,7 +118,7 @@ useEffect(()=>{
 })
   .catch((error) => console.log("error msg: "+error))
 },[])
-alert(auth.token)
+// alert(auth.token)
 console.log("printing props.token "+auth.token)
   return (
     <>
