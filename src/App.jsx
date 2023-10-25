@@ -78,7 +78,11 @@ const teamMembersArray = [
     profileImg: Jessica,
   }
 ]
-
+const processUserLoginAPIRequest = {
+  "newLogin": false,
+  "datasRequired": null,
+  "userRole": null
+}
 const [task,setTask] = useState(TaskArray);
 const [project,setProject] = useState(ProjectData);
 const [teamMember,setteamMember] = useState(teamMembersArray);
@@ -135,7 +139,7 @@ useEffect( () => {
     return;
   isCalled.current = true;
    checkKeyloak();
-   axios.post(`${baseURL}/api/v0/`,{})
+   axios.post(`${baseURL}/api/User/ProcessUserLogin`,{})
       .then((response) => {
         console.log("Response from Axios after receiving token(Post): "+ JSON.stringify(response))
         console.log("data from axios (Post): "+response.data)
@@ -196,14 +200,28 @@ useEffect(()=>{
   return (
     <>
       <Routes>
-      <Route path='/Password' element = {
+      {processUserLoginAPIRequest.newLogin == true ? 
+          <Route path = '/Password' element = {
+            <Password
+              show = {passwordModel}
+              onHide = {()=>setPasswordModel(false)}
+              passwordModel = {passwordModel}
+              passwordSetModel = {setPasswordModel}
+              processUserLoginAPIRequest = {processUserLoginAPIRequest}
+            /> 
+        } />
+       : 
+      <>
+      {/* <Route path='/Password' element = {
       <Password
         show = {passwordModel}
         onHide = {()=>setPasswordModel(false)}
         passwordModel = {passwordModel}
         passwordSetModel = {setPasswordModel}
+        processUserLoginAPIRequest = {processUserLoginAPIRequest}
       />
-      }/>
+      }/> */}
+      
         <Route path='/' element = 
         {
           <>
@@ -334,7 +352,8 @@ useEffect(()=>{
           />
         </AuthContext.Provider>
       }>
-      </Route>
+      </Route> 
+      </>}
       </Routes>
     </>
   )

@@ -20,14 +20,15 @@ export default function Password(props) {
     setPasswordShow(passwordShow ? false : true)
   }
   return (
-    <>
-    <Modal 
+      <>
+      {/* { props.processUserLoginAPIRequest.newLogin === false ? */}
+      <Modal 
         show = {props.show}
         onHide={props.onHide}
         size='lg'
         centered
         className='MyModal'
-    >
+      >
         <Modal.Header closeButton className ='MyModalHeader'>
             <Modal.Title className ='MyModalHeader'>Password Details</Modal.Title>
         </Modal.Header>
@@ -101,7 +102,11 @@ export default function Password(props) {
             variant='warning' className = "MyModalFooterHomeButton">
            <FontAwesomeIcon icon={faHome}/> Home</Button></Link>
         </Modal.Footer>
-    </Modal>
+    </Modal> 
+    {/* : 
+    <>
+      <h1>Please enter the details</h1>
+    </> } */}
     </>
   )
 }
