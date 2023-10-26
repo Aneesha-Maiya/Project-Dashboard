@@ -11,6 +11,7 @@ import Lindsley from '../image/Lindsley.jfif'
 export default function AllProjects(props) {
   let otherProject = []
   let projectItem = props.project
+  const baseUrl = import.meta.env.VITE_BASE_URL
   const [sharedProjects,setSharedProjects] = useState({})
   const [sharedProjects1,setSharedProjects1] = useState(otherProject)
   const [projectsSearched,setProjectsSearched] = useState(projectItem)
@@ -112,7 +113,7 @@ export default function AllProjects(props) {
   //   </div> )
   // }
   useEffect(()=>{
-    axios.get("https://jsonplaceholder.typicode.com/posts")
+    axios.get(`${baseUrl}/api/User/CodeBlock/GetAll`)
       .then((response) => {
         console.log("Response from Axios for getting all projects of user(Get): "+ JSON.stringify(response))
         console.log("data from axios (Get): "+response.data)
@@ -155,6 +156,12 @@ export default function AllProjects(props) {
                           projectTech = {item.projectTech}
                           url = {item.url}
                           webUrl = {item.webUrl}
+                          createrId = {item.createrId}
+                          description = {item.description}
+                          templateId = {item.templateId}
+                          repo = {item.repo}
+                          vmId = {item.vmId}
+                          containerId = {item.containerId}
                           currentUser = {props.currentUser}
                         />
                       ) //return
@@ -192,6 +199,12 @@ export default function AllProjects(props) {
                                 projectTech = {item2.projectTech}
                                 url = {item2.url}
                                 webUrl = {item2.webUrl}
+                                createrId = {item2.createrId}
+                                description = {item2.description}
+                                templateId = {item2.templateId}
+                                repo = {item2.repo}
+                                vmId = {item2.vmId}
+                                containerId = {item2.containerId}
                                 currentUser = {props.currentUser}
                             />
                         )
@@ -227,6 +240,12 @@ export default function AllProjects(props) {
                         projectTech = {item.projectTech}
                         url = {item.url}
                         webUrl = {item.webUrl}
+                        createrId = {item.createrId}
+                        description = {item.description}
+                        templateId = {item.templateId}
+                        repo = {item.repo}
+                        vmId = {item.vmId}
+                        containerId = {item.containerId}
                         currentUser = {props.currentUser}
                       /> 
                     )

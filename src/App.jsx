@@ -3,7 +3,7 @@ import Calendar from 'react-calendar'
 import {Button} from 'react-bootstrap'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faPlus,faPenToSquare} from '@fortawesome/free-solid-svg-icons'
-import {Routes,Route,Link} from "react-router-dom"
+import {Routes,Route,Link,useNavigate} from "react-router-dom"
 import {useIdleTimer} from "react-idle-timer"
 import Keycloak from 'keycloak-js'
 import axios from 'axios'
@@ -101,10 +101,10 @@ const [remaining,setRemaining] = useState(0)
 const [newLogin, setNewLogin] = useState(processUserLoginAPIRequest.newLogin)
 
 const addProjectInfo = useContext(newProjectInfoContext)
-
-function changeLoginValue(value){
-  setNewLogin(value)
-}
+const navigate = useNavigate()
+// function changeLoginValue(value){
+//   setNewLogin(value)
+// }
 
 const date = new Date();
 let day = date.getDate();
@@ -146,7 +146,9 @@ useEffect( () => {
     return;
   isCalled.current = true;
    checkKeyloak();
-   axios.post(`${baseURL}/api/User/ProcessUserLogin`,{})
+   axios.post(`${baseURL}/api/User/ProcessUserLogin`,{
+      token: kcToken
+    })
       .then((response) => {
         console.log("Response from Axios after receiving token(Post): "+ JSON.stringify(response))
         console.log("data from axios (Post): "+response.data)
@@ -239,8 +241,22 @@ useEffect(()=>{
         // changeNewLogin = {()=>changeLoginValue(value)}
       />
       }/>
+      <Route path='/UserDetails' element={
+        <AuthContext.Provider value={{token: kcToken }}>
+          <UserDetails
+          show = {passwordModel}
+          onHide = {()=>setPasswordModel(false)}
+          token = {"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJlU3NBaU81ZTFHUkJsNVJjbmZvR0hRc1lqZ2tvRGtxdURtT3BKMXM2VjYwIn0.eyJleHAiOjE2OTYxNjcyNTUsImlhdCI6MTY5NjE2Njk1NSwiYXV0aF90aW1lIjoxNjk2MTY1MDU0LCJqdGkiOiJmZjJhNTE0Mi1iZmVlLTQyYmUtYTg0Ni1iMDc3MDVjM2Q0ZTYiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXV0aC9yZWFsbXMva2FydGhpa3JlYWxtIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjJlOTE4Y2RhLWMwMTgtNDkyZS1hNWQ2LTIwNmVjNmU4N2Q3YyIsInR5cCI6IkJlYXJlciIsImF6cCI6ImJjYXV0aCIsIm5vbmNlIjoiNmQxZDlkZGUtMjZiYS00YzcwLWJmY2UtNjNjNmMyYmNjMTM5Iiwic2Vzc2lvbl9zdGF0ZSI6ImQ2OWRjZDMwLTc4ZGMtNGE0Ni1iYzczLTg4MmQ5N2IzM2U0YiIsImFjciI6IjAiLCJhbGxvd2VkLW9yaWdpbnMiOlsiKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsIm5hbWUiOiJKb2huIERvZSIsInByZWZlcnJlZF91c2VybmFtZSI6InVzZXIxIiwibG9jYWxlIjoiZW4iLCJnaXZlbl9uYW1lIjoiSm9obiIsImZhbWlseV9uYW1lIjoiRG9lIiwiZW1haWwiOiJ1c2VyMUB0ZXN0LmdtYWlsLmNvbSJ9.Com1mwmaUYybozi3eC3x0uMqF8f6uu9_zljlzZRfPIHpcs_KxeJEHMZf5b-jhD8b-UcpF_enScSs2Xe85m08JsCo3iX-r6W3ywvUfkH085L6QgQ3aIrdbLlEoOwoDhRuBpV8nv7120C55OOVstO3WFcJESJ5u52VWBIKUjjlbz7PuIHyhzrTOEehVks69Je6UFtqzOYD5WRmG5xSmMRE1X3lm99gj8p94N9BE4kWY23uO1xC9lHmgwvAa-846OFR0a5-dZBmhItTKQNGE6VIHDdPeimI2HpaPXpK9ywQrxXf6jOTN-IyHgAG9TWixjs-KgRxAhXXNJjcXjm5WCf0oQ"}
+          newLoginAPI = {processUserLoginAPIRequest.newLogin}
+          changeNewLogin = {(value)=>setNewLogin(value)}
+          userInfo = {teamMembersArray}
+          />
+        </AuthContext.Provider>
+      }>
+      </Route> 
         <Route path='/' element = 
         {
+          newLogin == false ?
           <>
             <Header
             name = "Lindsey"
@@ -309,6 +325,12 @@ useEffect(()=>{
                             projectTech = {item.projectTech}
                             url = {item.url}
                             webUrl = {item.webUrl}
+                            createrId = {item.createrId}
+                            description = {item.description}
+                            templateId = {item.templateId}
+                            repo = {item.repo}
+                            vmId = {item.vmId}
+                            containerId = {item.containerId}
                             currentUser = {userName}
                           />
                           ) // return
@@ -350,6 +372,7 @@ useEffect(()=>{
               </div>
             </div>
           </>
+          : navigate('/UserDetails')
         }
         />
       <Route path='/AllProjects' element = 
@@ -361,16 +384,6 @@ useEffect(()=>{
           setSearchBarValue = {setSearchBarInput}
         />
       }/>
-      <Route path='/UserDetails' element={
-        <AuthContext.Provider value={{token: kcToken }}>
-          <UserDetails
-          show = {passwordModel}
-          onHide = {()=>setPasswordModel(false)}
-          token = {"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJlU3NBaU81ZTFHUkJsNVJjbmZvR0hRc1lqZ2tvRGtxdURtT3BKMXM2VjYwIn0.eyJleHAiOjE2OTYxNjcyNTUsImlhdCI6MTY5NjE2Njk1NSwiYXV0aF90aW1lIjoxNjk2MTY1MDU0LCJqdGkiOiJmZjJhNTE0Mi1iZmVlLTQyYmUtYTg0Ni1iMDc3MDVjM2Q0ZTYiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXV0aC9yZWFsbXMva2FydGhpa3JlYWxtIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjJlOTE4Y2RhLWMwMTgtNDkyZS1hNWQ2LTIwNmVjNmU4N2Q3YyIsInR5cCI6IkJlYXJlciIsImF6cCI6ImJjYXV0aCIsIm5vbmNlIjoiNmQxZDlkZGUtMjZiYS00YzcwLWJmY2UtNjNjNmMyYmNjMTM5Iiwic2Vzc2lvbl9zdGF0ZSI6ImQ2OWRjZDMwLTc4ZGMtNGE0Ni1iYzczLTg4MmQ5N2IzM2U0YiIsImFjciI6IjAiLCJhbGxvd2VkLW9yaWdpbnMiOlsiKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsIm5hbWUiOiJKb2huIERvZSIsInByZWZlcnJlZF91c2VybmFtZSI6InVzZXIxIiwibG9jYWxlIjoiZW4iLCJnaXZlbl9uYW1lIjoiSm9obiIsImZhbWlseV9uYW1lIjoiRG9lIiwiZW1haWwiOiJ1c2VyMUB0ZXN0LmdtYWlsLmNvbSJ9.Com1mwmaUYybozi3eC3x0uMqF8f6uu9_zljlzZRfPIHpcs_KxeJEHMZf5b-jhD8b-UcpF_enScSs2Xe85m08JsCo3iX-r6W3ywvUfkH085L6QgQ3aIrdbLlEoOwoDhRuBpV8nv7120C55OOVstO3WFcJESJ5u52VWBIKUjjlbz7PuIHyhzrTOEehVks69Je6UFtqzOYD5WRmG5xSmMRE1X3lm99gj8p94N9BE4kWY23uO1xC9lHmgwvAa-846OFR0a5-dZBmhItTKQNGE6VIHDdPeimI2HpaPXpK9ywQrxXf6jOTN-IyHgAG9TWixjs-KgRxAhXXNJjcXjm5WCf0oQ"}
-          />
-        </AuthContext.Provider>
-      }>
-      </Route> 
       <Route path = '/example' element = {
         <>
           <Example/>

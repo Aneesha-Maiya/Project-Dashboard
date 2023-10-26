@@ -34,6 +34,36 @@ export default function AddProjectForm() {
     webAppUrl: "https://www.youtube.com/",
     type: "Cs/js/webapp",
   }
+  const connection = new signalR.HubConnectionBuilder()
+    .withUrl("/codehub")
+    .configureLogging(signalR.LogLevel.Information)
+    .build();
+
+    async function start() {
+        try {
+            await connection.start();
+            console.log("SignalR Connected.");
+        } catch (err) {
+            console.log(err);
+            setTimeout(start, 5000);
+        }
+    };
+    const createNewCodeBlock = async() => {
+        try {
+        //Request structure 
+        const request = {
+        "projectName": null,
+        "projectDescription": null,
+        "userId": null,
+        "tempalteId": null,
+        "id": null
+        }
+        await connection.invoke("CreateAndStartCodeBlock", request);
+        } 
+        catch (err) {
+            console.error(err);
+        }
+     }
   const handleFormSubmit = (event) =>{
     alert("Form submitted")
     console.log("from submitted")
@@ -58,12 +88,13 @@ export default function AddProjectForm() {
             outputValues.userName = data.userName
             console.log("project name -> ", outputValues.projectName)
             console.log("tech used -> ",outputValues.projectSelect)
-            axios.post("https://jsonplaceholder.typicode.com/posts",{})
-            .then((response) => {
-                console.log("Response from Axios after sending project details(Post): "+ JSON.stringify(response))
-                console.log("data from axios (Post): " + response.data)
-            })
-            .catch((error) => console.log("error msg: "+error))
+            // axios.post("https://jsonplaceholder.typicode.com/posts",{})
+            // .then((response) => {
+            //     console.log("Response from Axios after sending project details(Post): "+ JSON.stringify(response))
+            //     console.log("data from axios (Post): " + response.data)
+            // })
+            // .catch((error) => console.log("error msg: "+error))
+            createNewCodeBlock
             alert("Form Submitted Successfully")
             if(data.projectSelect == "WebApp"){
                 window.electronAPI.sendWebURL(addProjectAPIResponse)

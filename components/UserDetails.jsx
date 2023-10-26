@@ -8,7 +8,7 @@ import axios from 'axios'
 import AuthContext from '../src/contexts/authContext'
 
 import API_Response from '../src/APIResponse.json'
-const baseUrl = "http://26.172.63.204:5278"
+const baseUrl = import.meta.env.VITE_BASE_URL
 //http://e82a-106-51-171-133.ngrok-free.app/
 // const APIResponse = new Map()
 // APIResponse.set("NewLogin",true)
@@ -110,14 +110,22 @@ export default function UserDetails(props) {
 //   .catch((error) => console.log("error msg: "+error))
 // },[])
 //Posting data to baseUrl using axios
-useEffect(()=>{
-  axios.post(`${baseUrl}/api/User/ProcessUserLogin?token=${props.token}`)
-  .then((response) => {
-    console.log("Response from Axios (Post): "+ JSON.stringify(response))
-    console.log("data from axios (Post): "+response.data)
-})
-  .catch((error) => console.log("error msg: "+error))
-},[])
+// useEffect(()=>{
+//   axios.post(`${baseUrl}/api/User/ProcessUserLogin?token=${props.token}`
+//   {
+//     "userName": "Lindsley",
+//     "userId": "123456",
+//     "tooluserName": [
+//       {toolname: Response[0].datasRequired[0],
+//       username: ""}
+//     ]
+//   })
+//   .then((response) => {
+//     console.log("Response from Axios (Post): "+ JSON.stringify(response))
+//     console.log("data from axios (Post): "+response.data)
+// })
+//   .catch((error) => console.log("error msg: "+error))
+// },[])
 // alert(auth.token)
 console.log("printing props.token "+auth.token)
   return (
@@ -136,7 +144,7 @@ console.log("printing props.token "+auth.token)
         <Form noValidate onSubmit = {
               handleSubmit(
                 (d)=>{
-                    alert("Details updated successfully!")
+                    
                     enteredValue.discordUsername = d.discordUsername
                     enteredValue.githubUsername = d.githubUsername
                     enteredValue.azureDevopsUsername = d.azureDevopsUsername
@@ -163,17 +171,42 @@ console.log("printing props.token "+auth.token)
                     // }
                     // )
                     // .catch(error => console.log(error))
-                    async () => {
-                      try{
-                        const res = await fetch('https://jsonplaceholder.typicode.com/posts',option,)
-                        console.log(res)
-                        const resData = await res.json()
-                        console.log(resData);
-                      }
-                      catch(err){
-                        console.log(err.message)
-                      }
-                    }
+                    // async () => {
+                    //   try{
+                    //     const res = await fetch('https://jsonplaceholder.typicode.com/posts',option,)
+                    //     console.log(res)
+                    //     const resData = await res.json()
+                    //     console.log(resData);
+                    //   }
+                    //   catch(err){
+                    //     console.log(err.message)
+                    //   }
+                    // }
+                    useEffect(()=>{
+                      axios.post(`${baseUrl}/api/User/UpdateUserDetails`,
+                      {
+                        "userName": "Lindsley",
+                        "userId": "123456",
+                        "tooluserName": [
+                          {
+                            toolname: Response[0].datasRequired[0] ? Response[0].datasRequired[0] : "",
+                            username: d.discordUsername},
+                          { 
+                            toolname: Response[0].datasRequired[1] ?  Response[0].datasRequired[1] : "",
+                            username: d.githubUsername
+                          }
+                        ]
+                      })
+                      .then((response) => {
+                        console.log("Response from Axios (Post): "+ JSON.stringify(response))
+                        console.log("data from axios (Post): "+response.data)
+                    })
+                      .catch((error) => console.log("error msg: "+error))
+                    },[])
+                    
+                    props.changeNewLogin(!props.newLoginAPI)
+                    alert(`Details updated successfully! before: ${props.newLoginAPI} after: ${!props.newLoginAPI}`)
+                    navigate('/')
                 }
               )
         }>
@@ -237,8 +270,14 @@ console.log("printing props.token "+auth.token)
         </Form>
         </Modal.Body>
         <Modal.Footer className='MyModalFooter'>
-            <Link to = '/'><Button onClick={props.onHide} variant='warning' className = "MyModalFooterButton">
-            <FontAwesomeIcon icon={faHome}/>  Home</Button></Link>
+            <Button onClick={()=>{
+              props.onHide;
+              props.changeNewLogin(!props.newLoginAPI);
+              alert(`before: ${props.newLoginAPI} after: ${!props.newLoginAPI}`)
+              navigate('/')
+            }}
+            variant='warning' className = "MyModalFooterButton">
+            <FontAwesomeIcon icon={faHome}/>  Home</Button>
         </Modal.Footer>
     </Modal> : 
     <div className="LoginNotDone">
