@@ -2,7 +2,7 @@ import React from 'react'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import { faCheckCircle} from '@fortawesome/free-regular-svg-icons';
 import {faLink} from '@fortawesome/free-solid-svg-icons';
-import {ProgressBar} from 'react-bootstrap';
+import {ProgressBar,Button} from 'react-bootstrap';
 import axios from 'axios';
 
 export default function Project(props) {
@@ -59,6 +59,10 @@ export default function Project(props) {
           <div className = 'ProjectTasksInfo'>
             <p><FontAwesomeIcon icon={faCheckCircle}/>  {props.numberOfTasksCompleted}/{props.numberOfTasks}</p>
             <p><FontAwesomeIcon icon={faLink}/>  {props.numberOfMembers}</p>
+            <Button variant = 'primary' className='LaunchButton'
+            onClick={()=>{
+              props.changeStartCodeblockResponse(props.id)
+            }}>Launch</Button>
           </div>
           <div className='ProjectProgressBar'>
             <ProgressBar now={(props.numberOfTasksCompleted/props.numberOfTasks)*100}

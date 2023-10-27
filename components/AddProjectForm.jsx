@@ -1,17 +1,46 @@
 import {React} from 'react'
-import { useState } from 'react'
+import { useState, useEffect} from 'react'
 import {Form ,Button} from 'react-bootstrap'
 import {useForm} from 'react-hook-form'
 import axios from 'axios'
 
 import newProjectInfoContext from '../src/contexts/newprojectInfoContext'
 
-export default function AddProjectForm() {
+export default function AddProjectForm(props) {
+  const baseUrl = import.meta.env.VITE_BASE_URL
+  const templateAPIResponse = [
+    {
+        "id": 123,
+        "name": "C++",
+        "image": null,
+        "type": null
+    },
+    {
+        "id": 234,
+        "name": "Python",
+        "image": null,
+        "type": null
+    },
+    {
+        "id": 345,
+        "name": "Java",
+        "image": null,
+        "type": null
+    },
+    {
+        "id": 456,
+        "name": "WebApp",
+        "image": null,
+        "type": null
+    }
+  ]
+
   const [validated ,setValidated] = useState(false)
   const [userName,setUserName] = useState("")
   const [projectName,setProjectName] = useState("")
   const [techUsed,setTechUsed] = useState("")
   const [userID,setUserID] = useState("")
+  const [templateAPI_Response,settemplateAPI_Response] = useState(templateAPIResponse)
 
   const defaultValues = {
     projectName:"",
@@ -27,6 +56,17 @@ export default function AddProjectForm() {
     projectSelect: 1,
     projectDesc: "",
   }
+  const startCodeBlockRequest = {
+    "codeBlockId": "Project1",
+    "userId":  props.getUserDetailsAPIResponse.id
+  }
+  const createCodeBlockRequest = {
+    "projectName": "MissionAneesh",
+    "projectDescription": "Trial project 1",
+    "userId": props.getUserDetailsAPIResponse.id,
+    "tempalteId": "1",
+    "id": "Project1"
+  }
   const addProjectAPIResponse = {
     action: "openedCodeBlock",
     projectId:{},
@@ -34,36 +74,45 @@ export default function AddProjectForm() {
     webAppUrl: "https://www.youtube.com/",
     type: "Cs/js/webapp",
   }
-  const connection = new signalR.HubConnectionBuilder()
-    .withUrl("/codehub")
-    .configureLogging(signalR.LogLevel.Information)
-    .build();
+//   const connection = new signalR.HubConnectionBuilder()
+//     .withUrl("/codehub")
+//     .configureLogging(signalR.LogLevel.Information)
+//     .build();
 
-    async function start() {
-        try {
-            await connection.start();
-            console.log("SignalR Connected.");
-        } catch (err) {
-            console.log(err);
-            setTimeout(start, 5000);
-        }
-    };
-    const createNewCodeBlock = async() => {
-        try {
-        //Request structure 
-        const request = {
-        "projectName": null,
-        "projectDescription": null,
-        "userId": null,
-        "tempalteId": null,
-        "id": null
-        }
-        await connection.invoke("CreateAndStartCodeBlock", request);
-        } 
-        catch (err) {
-            console.error(err);
-        }
-     }
+//     async function start() {
+//         try {
+//             await connection.start();
+//             console.log("SignalR Connected.");
+//         } catch (err) {
+//             console.log(err);
+//             setTimeout(start, 5000);
+//         }
+//     };
+    // const createNewCodeBlock = async() => {
+    //     try {
+    //     //Request structure 
+    //     const request = {
+    //     "projectName": null,
+    //     "projectDescription": null,
+    //     "userId": null,
+    //     "tempalteId": null,
+    //     "id": null
+    //     }
+    //     await connection.invoke("CreateAndStartCodeBlock", request);
+    //     } 
+    //     catch (err) {
+    //         console.error(err);
+    //     }
+    //  }
+    useEffect(()=>{
+        axios.get(`${baseUrl}/api/template/all`)
+          .then((response) => {
+            console.log("Response from Axios for getting all projects of user(Get): "+ JSON.stringify(response))
+            console.log("data from axios (Get): "+response.data)
+          })
+          .catch((error) => console.log("error msg: "+error))
+      },[])
+
   const handleFormSubmit = (event) =>{
     alert("Form submitted")
     console.log("from submitted")
@@ -88,13 +137,17 @@ export default function AddProjectForm() {
             outputValues.userName = data.userName
             console.log("project name -> ", outputValues.projectName)
             console.log("tech used -> ",outputValues.projectSelect)
+            createCodeBlockRequest.projectName = data.projectName
+            createCodeBlockRequest.projectDescription = data.projectDesc
+            createCodeBlockRequest.tempalteId = data.projectSelect
+            
             // axios.post("https://jsonplaceholder.typicode.com/posts",{})
             // .then((response) => {
             //     console.log("Response from Axios after sending project details(Post): "+ JSON.stringify(response))
             //     console.log("data from axios (Post): " + response.data)
             // })
             // .catch((error) => console.log("error msg: "+error))
-            createNewCodeBlock
+            // createNewCodeBlock
             alert("Form Submitted Successfully")
             if(data.projectSelect == "WebApp"){
                 window.electronAPI.sendWebURL(addProjectAPIResponse)
@@ -102,6 +155,8 @@ export default function AddProjectForm() {
             else{
                 window.electronAPI.sendURL(addProjectAPIResponse)
             }
+            window.electronAPI?.createCodeBlock(createCodeBlockRequest)
+            window.electronAPI?.startCodeBlock(startCodeBlockRequest)
         })
         } validated={validated}>
         <Form.Group>
@@ -179,10 +234,10 @@ export default function AddProjectForm() {
                         required: "Please select atleast one option"
                     })
                 }>
-                <option value="Java">Java</option>
-                <option value="Python">Python</option>
-                <option value="C++">C++</option>
-                <option value="WebApp">Web App</option>
+                <option value={templateAPIResponse[0].id}>{templateAPIResponse[0].name}</option>
+                <option value={templateAPIResponse[1].id}>{templateAPIResponse[1].name}</option>
+                <option value={templateAPIResponse[2].id}>{templateAPIResponse[2].name}</option>
+                <option value={templateAPIResponse[3].id}>{templateAPIResponse[3].name}</option>
             </Form.Select>
             {/* <Form.Control.Feedback>Looks Good!</Form.Control.Feedback>
             <Form.Control.Feedback type = "invalid">UserID is required</Form.Control.Feedback> */}
@@ -212,7 +267,7 @@ export default function AddProjectForm() {
             )}
         </Form.Group>
         <Form.Group>
-            <Button type ="submit" variant='success' className='FormControlElementsButton'>Submit</Button>
+            <Button type ="submit" variant='success' className='FormControlElementsButton'>Launch</Button>
         </Form.Group>
     </Form>
   )

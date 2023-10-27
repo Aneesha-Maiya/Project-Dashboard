@@ -7,6 +7,8 @@ import {Routes,Route,Link,useNavigate} from "react-router-dom"
 import {useIdleTimer} from "react-idle-timer"
 import Keycloak from 'keycloak-js'
 import axios from 'axios'
+import signalR from '@microsoft/signalr/dist/browser/signalr'
+import {HubConnectionBuilder,LogLevel } from '@microsoft/signalr'
 
 import ProjectData from './Project.json'
 import Header from '../components/Header'
@@ -33,7 +35,7 @@ import Amelia from '../image/Amelia.jpg'
 // import DribbleShot from '../image/DribbleShot.avif'
 // import UiKit from '../image/UiKit.jfif'
 // import SmartCity from '../image/SmartCity.jpg'
-const keyCloak = new Keycloak('/keycloak.json')
+// const keyCloak = new Keycloak('/keycloak.json')
 export default function App() {
   const TaskArray = [
     {
@@ -80,16 +82,28 @@ const teamMembersArray = [
   }
 ]
 const processUserLoginAPIRequest = {
-  "newLogin": true,
+  "newLogin": false,
   "datasRequired": null,
   "userRole": null
 }
-
+const getUserDetailsAPIResponse ={
+  "userName": "Lindsley Alison",
+  "id":"LA2345",
+  "email": null
+}
+const stopCodeBlockRequest = {
+  "codeBlockId": "Project1",
+  "userId": getUserDetailsAPIResponse.id
+}
+const startCodeBlockRequest = {
+  "codeBlockId": "Project1",
+  "userId": getUserDetailsAPIResponse.id
+}
 const [task,setTask] = useState(TaskArray);
 const [project,setProject] = useState(ProjectData);
 const [teamMember,setteamMember] = useState(teamMembersArray);
 const [dateValue,setDateValue] = useState(new Date());
-const [userName,setUserName] = useState("Lindsley Alison");
+const [userName,setUserName] = useState(getUserDetailsAPIResponse.userName);
 const [modalShow,setModalShow] = useState(false);
 const [passwordModel,setPasswordModel] = useState(true);
 const [loggedIn, setIsLoggedIn] = useState(false);
@@ -99,8 +113,11 @@ const [appState,setAppState] = useState("Active")
 const [count,setCount] = useState(0)
 const [remaining,setRemaining] = useState(0)
 const [newLogin, setNewLogin] = useState(processUserLoginAPIRequest.newLogin)
+const [startCode_BlockRequest,setStartCodeBlockRequest] = useState(startCodeBlockRequest)
+const [stopCode_BlockRequest,setstopCode_BlockRequest] = useState(stopCodeBlockRequest)
 
 const addProjectInfo = useContext(newProjectInfoContext)
+const baseUrl = import.meta.env.VITE_BASE_URL
 const navigate = useNavigate()
 // function changeLoginValue(value){
 //   setNewLogin(value)
@@ -126,7 +143,11 @@ const setSearchBarInput = (value) => {
 //   realm: "karthikrealm",
 //   clientId: "bcauth"
 // });
-
+const keyCloak = new Keycloak({
+  url: "http://15.207.145.148:8080/",
+  realm: "Perspectify",
+  clientId: "FrontEndAuth"
+});
 let keycloakToken = null
 const baseURL = import.meta.env.VITE_BASE_URL
 const checkKeyloak = async () => {
@@ -173,27 +194,39 @@ useEffect( () => {
     timeout: 300_000,
     throttle: 500
   })
+  useEffect(()=>{
+    axios.get(`${baseUrl}/api/User/CodeBlock/GetAll`)
+      .then((response) => {
+        console.log("Response from Axios for getting all projects of user(Get): "+ JSON.stringify(response))
+        console.log("data from axios (Get): "+response.data)
+      })
+      .catch((error) => console.log("error msg: "+error))
+      const getAllProjectInfoAPIResponse = ProjectData
+      setProject(getAllProjectInfoAPIResponse)
+  },[])
   useEffect(() => {
     const interval = setInterval(() => {
       setRemaining(Math.ceil(getRemainingTime() / 1000))
     }, 500)
     if(appState == "Idle"){
       alert("You have been idle for a long time!")
-      axios.post(`${baseURL}/api/v0/`,{})
-      .then((response) => {
-        console.log("Response from Axios on Idle State(Post): "+ JSON.stringify(response))
-        console.log("data from axios (Post): "+response.data)
-      })
-      .catch((error) => console.log("error msg: "+error))
+      // axios.post(`${baseURL}/api/v0/`,{})
+      // .then((response) => {
+      //   console.log("Response from Axios on Idle State(Post): "+ JSON.stringify(response))
+      //   console.log("data from axios (Post): "+response.data)
+      // })
+      // .catch((error) => console.log("error msg: "+error))
+      window.electronAPI?.stopCodeBlock(stopCode_BlockRequest)
     }
     else{
       alert("Welcome Back Again!")
-      axios.post(`${baseURL}/api/v0/`,{})
-      .then((response) => {
-        console.log("Response from Axios on Active State(Post): "+ JSON.stringify(response))
-        console.log("data from axios (Post): "+response.data)
-      })
-      .catch((error) => console.log("error msg: "+error))
+      // axios.post(`${baseURL}/api/v0/`,{})
+      // .then((response) => {
+      //   console.log("Response from Axios on Active State(Post): "+ JSON.stringify(response))
+      //   console.log("data from axios (Post): "+response.data)
+      // })
+      // .catch((error) => console.log("error msg: "+error))
+       window.electronAPI?.startCodeBlock(startCode_BlockRequest)
     }
     console.log("App state: ",appState)
     return () => {
@@ -206,6 +239,41 @@ useEffect(()=>{
   const testEnv = import.meta.env.VITE_TEST
   console.log("Test env variable is: ",testEnv)
 },[])
+// const connection = new signalR.HubConnectionBuilder()
+// .withUrl("/codehub")
+// .configureLogging(signalR.LogLevel.Information)
+// .build();
+
+// async function start() {
+//     try {
+//         await connection.start();
+//         console.log("SignalR Connected.");
+//     } catch (err) {
+//         console.log(err);
+//         setTimeout(start, 5000);
+//     }
+// };
+//in app component did mount or global
+// connection.on("LaunchedCodeBlock", (CodeBlockResponse) => {
+//   //Response structure 
+//   /*
+//   {
+//     "port": 0,
+//     "url": null,
+//     "appPortNumber": 0,
+//     "action": "launchedCodeBlock",
+//     "codeBlockId": null
+//   }*/
+//   //use this to open the url to codewindow and appurl in secondaryWindow
+//   });
+function changeStartCodeblockResponse(value){
+    setStartCodeBlockRequest({
+      ...startCode_BlockRequest,
+      codeBlockId: value
+    })
+  console.log("Updated state value from projects page after clicking launch button")
+  window.electronAPI?.startCodeBlock(startCode_BlockRequest)
+}
   return (
     <>
       <Routes>
@@ -250,6 +318,7 @@ useEffect(()=>{
           newLoginAPI = {processUserLoginAPIRequest.newLogin}
           changeNewLogin = {(value)=>setNewLogin(value)}
           userInfo = {teamMembersArray}
+          getUserDetailsAPIResponse = {getUserDetailsAPIResponse}
           />
         </AuthContext.Provider>
       }>
@@ -259,9 +328,9 @@ useEffect(()=>{
           newLogin == false ?
           <>
             <Header
-            name = "Lindsey"
-            fullName = "Lindsley Alisson"
-            position = "UI Designer"
+            name = {getUserDetailsAPIResponse.userName}
+            fullName = {getUserDetailsAPIResponse.userName}
+            // position = "UI Designer"
             profileImg = {Lindsley}
             setSearchBarValue = {setSearchBarInput}
             />
@@ -332,6 +401,7 @@ useEffect(()=>{
                             vmId = {item.vmId}
                             containerId = {item.containerId}
                             currentUser = {userName}
+                            changeStartCodeblockResponse = {(value)=>changeStartCodeblockResponse(value)}
                           />
                           ) // return
                         } //if
@@ -365,6 +435,7 @@ useEffect(()=>{
                         <MyModal
                         show = {modalShow}
                         onHide = {()=>setModalShow(false)}
+                        getUserDetailsAPIResponse = {getUserDetailsAPIResponse}
                         />
                       <Button variant='primary' className='ProjectButton'>
                         <FontAwesomeIcon icon={faPenToSquare} className='ProjectButtonIcon'/>Edit Project Info</Button>
@@ -372,7 +443,18 @@ useEffect(()=>{
               </div>
             </div>
           </>
-          : navigate('/UserDetails')
+          : 
+          <AuthContext.Provider value={{token: kcToken }}>
+          <UserDetails
+          show = {passwordModel}
+          onHide = {()=>setPasswordModel(false)}
+          token = {"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJlU3NBaU81ZTFHUkJsNVJjbmZvR0hRc1lqZ2tvRGtxdURtT3BKMXM2VjYwIn0.eyJleHAiOjE2OTYxNjcyNTUsImlhdCI6MTY5NjE2Njk1NSwiYXV0aF90aW1lIjoxNjk2MTY1MDU0LCJqdGkiOiJmZjJhNTE0Mi1iZmVlLTQyYmUtYTg0Ni1iMDc3MDVjM2Q0ZTYiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXV0aC9yZWFsbXMva2FydGhpa3JlYWxtIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjJlOTE4Y2RhLWMwMTgtNDkyZS1hNWQ2LTIwNmVjNmU4N2Q3YyIsInR5cCI6IkJlYXJlciIsImF6cCI6ImJjYXV0aCIsIm5vbmNlIjoiNmQxZDlkZGUtMjZiYS00YzcwLWJmY2UtNjNjNmMyYmNjMTM5Iiwic2Vzc2lvbl9zdGF0ZSI6ImQ2OWRjZDMwLTc4ZGMtNGE0Ni1iYzczLTg4MmQ5N2IzM2U0YiIsImFjciI6IjAiLCJhbGxvd2VkLW9yaWdpbnMiOlsiKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsIm5hbWUiOiJKb2huIERvZSIsInByZWZlcnJlZF91c2VybmFtZSI6InVzZXIxIiwibG9jYWxlIjoiZW4iLCJnaXZlbl9uYW1lIjoiSm9obiIsImZhbWlseV9uYW1lIjoiRG9lIiwiZW1haWwiOiJ1c2VyMUB0ZXN0LmdtYWlsLmNvbSJ9.Com1mwmaUYybozi3eC3x0uMqF8f6uu9_zljlzZRfPIHpcs_KxeJEHMZf5b-jhD8b-UcpF_enScSs2Xe85m08JsCo3iX-r6W3ywvUfkH085L6QgQ3aIrdbLlEoOwoDhRuBpV8nv7120C55OOVstO3WFcJESJ5u52VWBIKUjjlbz7PuIHyhzrTOEehVks69Je6UFtqzOYD5WRmG5xSmMRE1X3lm99gj8p94N9BE4kWY23uO1xC9lHmgwvAa-846OFR0a5-dZBmhItTKQNGE6VIHDdPeimI2HpaPXpK9ywQrxXf6jOTN-IyHgAG9TWixjs-KgRxAhXXNJjcXjm5WCf0oQ"}
+          newLoginAPI = {processUserLoginAPIRequest.newLogin}
+          changeNewLogin = {(value)=>setNewLogin(value)}
+          userInfo = {teamMembersArray}
+          getUserDetailsAPIResponse = {getUserDetailsAPIResponse}
+          />
+          </AuthContext.Provider>
         }
         />
       <Route path='/AllProjects' element = 

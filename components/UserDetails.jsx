@@ -59,7 +59,7 @@ for (let i = 0; i < ToolNameRequiredArray.length; i++) {
    }
 }
 
-export default function UserDetails(props) {
+const UserDetails = (props) => {
   const defaultValues = {
     discordUsername: "",
     githubUsername: "",
@@ -110,24 +110,34 @@ export default function UserDetails(props) {
 //   .catch((error) => console.log("error msg: "+error))
 // },[])
 //Posting data to baseUrl using axios
-// useEffect(()=>{
-//   axios.post(`${baseUrl}/api/User/ProcessUserLogin?token=${props.token}`
-//   {
-//     "userName": "Lindsley",
-//     "userId": "123456",
-//     "tooluserName": [
-//       {toolname: Response[0].datasRequired[0],
-//       username: ""}
-//     ]
-//   })
-//   .then((response) => {
-//     console.log("Response from Axios (Post): "+ JSON.stringify(response))
-//     console.log("data from axios (Post): "+response.data)
-// })
-//   .catch((error) => console.log("error msg: "+error))
+function sendUpdatedUserDetails(){
+  // useEffect(()=>{
+    console.log(enteredValue.discordUsername)
+  axios.put(`${baseUrl}/api/User/UpdateUserDetails`,
+  {
+    "userName": props.getUserDetailsAPIResponse.userName,
+    "userId": props.getUserDetailsAPIResponse.id,
+    "tooluserName": [
+      {
+        toolname: "discord",
+        username: enteredValue.discordUsername
+      },
+      { 
+        toolname: Response[0].datasRequired[1] ?  Response[0].datasRequired[1] : "",
+        username: enteredValue.discordUsername
+      }
+    ]
+  })
+  .then((response) => {
+    console.log("Response from Axios (Post): "+ JSON.stringify(response))
+    console.log("data from axios (Post): "+response.data)
+})
+  .catch((error) => console.log("error msg: "+error))
 // },[])
-// alert(auth.token)
-console.log("printing props.token "+auth.token)
+}
+useEffect(()=>{
+  console.log("printing props.token "+auth.token)
+},[])
   return (
     <>
     {LoginDone ? <Modal  
@@ -182,30 +192,10 @@ console.log("printing props.token "+auth.token)
                     //     console.log(err.message)
                     //   }
                     // }
-                    useEffect(()=>{
-                      axios.post(`${baseUrl}/api/User/UpdateUserDetails`,
-                      {
-                        "userName": "Lindsley",
-                        "userId": "123456",
-                        "tooluserName": [
-                          {
-                            toolname: Response[0].datasRequired[0] ? Response[0].datasRequired[0] : "",
-                            username: d.discordUsername},
-                          { 
-                            toolname: Response[0].datasRequired[1] ?  Response[0].datasRequired[1] : "",
-                            username: d.githubUsername
-                          }
-                        ]
-                      })
-                      .then((response) => {
-                        console.log("Response from Axios (Post): "+ JSON.stringify(response))
-                        console.log("data from axios (Post): "+response.data)
-                    })
-                      .catch((error) => console.log("error msg: "+error))
-                    },[])
-                    
+                    sendUpdatedUserDetails()
                     props.changeNewLogin(!props.newLoginAPI)
                     alert(`Details updated successfully! before: ${props.newLoginAPI} after: ${!props.newLoginAPI}`)
+                    alert(`${props.getUserDetailsAPIResponse.userName} and ${props.getUserDetailsAPIResponse.id}`)
                     navigate('/')
                 }
               )
@@ -273,8 +263,14 @@ console.log("printing props.token "+auth.token)
             <Button onClick={()=>{
               props.onHide;
               props.changeNewLogin(!props.newLoginAPI);
-              alert(`before: ${props.newLoginAPI} after: ${!props.newLoginAPI}`)
-              navigate('/')
+              if(props.newLoginAPI == true){
+                alert("Please submit details first")
+                navigate('/UserDetails')
+              }
+              else{
+                alert(`before: ${props.newLoginAPI} after: ${!props.newLoginAPI}`)
+                navigate('/')
+              }
             }}
             variant='warning' className = "MyModalFooterButton">
             <FontAwesomeIcon icon={faHome}/>  Home</Button>
@@ -288,3 +284,5 @@ console.log("printing props.token "+auth.token)
     </>
   )
 }
+
+export default UserDetails

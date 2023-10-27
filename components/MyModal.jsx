@@ -16,7 +16,9 @@ export default function MyModal(props) {
             <Modal.Title className ='MyModalHeader'>Add Project Form</Modal.Title>
         </Modal.Header>
         <Modal.Body className='MyModalBody'>
-            <AddProjectForm/>
+            <AddProjectForm
+                 getUserDetailsAPIResponse = {props.getUserDetailsAPIResponse}
+            />
         </Modal.Body>
         <Modal.Footer className='MyModalFooter'>
             <Button onClick={props.onHide} variant='danger' className ='MyModalHeaderButton'>Close</Button>
