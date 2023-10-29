@@ -11,6 +11,7 @@ import signalR from '@microsoft/signalr/dist/browser/signalr'
 import {HubConnectionBuilder,LogLevel } from '@microsoft/signalr'
 
 import ProjectData from './Project.json'
+import TasksData from './tasks.json'
 import Header from '../components/Header'
 import Sidebar from '../components/Sidebar'
 import TaskPanel from '../components/TaskPanel'
@@ -24,6 +25,8 @@ import UserDetails from '../components/UserDetails'
 import AuthContext from './contexts/authContext'
 import newProjectInfoContext from './contexts/newprojectInfoContext'
 import Example from '../components/example'
+import getUserDetails from './API/getUserDetails'
+import getAllProjectInfo from './API/getAllProjectInfo'
 
 import Lindsley from '../image/Lindsley.jfif'
 import Aaron from '../image/Aaron.jfif'
@@ -36,29 +39,13 @@ import Amelia from '../image/Amelia.jpg'
 // import UiKit from '../image/UiKit.jfif'
 // import SmartCity from '../image/SmartCity.jpg'
 // const keyCloak = new Keycloak('/keycloak.json')
+const keyCloak = new Keycloak({
+  url: "http://15.207.145.148:8080/",
+  realm: "Perspectify",
+  clientId: "FrontEndAuth"
+});
 export default function App() {
-  const TaskArray = [
-    {
-      name:"WireFraming Concept",
-      duration:"Today",
-      isCompleted: false,
-    },
-    {
-      name:"Create MoodBoard",
-      duration:"Today",
-      isCompleted: true,
-    },
-    {
-      name:"Create Style Guide",
-      duration:"Tomorrow",
-      isCompleted: false,
-    },
-    {
-      name:"UI Design Started",
-      duration:"Tomorrow",
-      isCompleted: true,
-    }
-]
+const TaskArray = TasksData
 const teamMembersArray = [
   {
     name : "Aaron Stanley",
@@ -84,7 +71,7 @@ const teamMembersArray = [
 const processUserLoginAPIRequest = {
   "newLogin": false,
   "datasRequired": null,
-  "userRole": null
+  "userRole": "Admin"
 }
 const getUserDetailsAPIResponse ={
   "userName": "Lindsley Alison",
@@ -113,11 +100,12 @@ const [appState,setAppState] = useState("Active")
 const [count,setCount] = useState(0)
 const [remaining,setRemaining] = useState(0)
 const [newLogin, setNewLogin] = useState(processUserLoginAPIRequest.newLogin)
-const [startCode_BlockRequest,setStartCodeBlockRequest] = useState(startCodeBlockRequest)
+const [startCode_BlockRequest,setStartCode_BlockRequest] = useState(startCodeBlockRequest)
 const [stopCode_BlockRequest,setstopCode_BlockRequest] = useState(stopCodeBlockRequest)
 
 const addProjectInfo = useContext(newProjectInfoContext)
 const baseUrl = import.meta.env.VITE_BASE_URL
+let x,y,z
 const navigate = useNavigate()
 // function changeLoginValue(value){
 //   setNewLogin(value)
@@ -143,11 +131,6 @@ const setSearchBarInput = (value) => {
 //   realm: "karthikrealm",
 //   clientId: "bcauth"
 // });
-const keyCloak = new Keycloak({
-  url: "http://15.207.145.148:8080/",
-  realm: "Perspectify",
-  clientId: "FrontEndAuth"
-});
 let keycloakToken = null
 const baseURL = import.meta.env.VITE_BASE_URL
 const checkKeyloak = async () => {
@@ -155,26 +138,28 @@ const checkKeyloak = async () => {
     const authenticated = await keyCloak.init({onLoad:"login-required"});
     console.log(`User is ${authenticated ? 'authenticated' : 'not authenticated'}`);
     console.log("client", keyCloak);
-    console.log(keyCloak.token)
     setkcToken(keyCloak.token)
+    console.log("keycloak token value is",keyCloak.token )
+    console.log("keycloak token value is",kcToken)
   } catch (error) {
     console.error('Failed to initialize adapter:', error);
   }
 }
 const isCalled = useRef(false);
-useEffect( () => {
+useEffect(() => async()=>{
   if (isCalled.current)
     return;
   isCalled.current = true;
-   checkKeyloak();
-   axios.post(`${baseURL}/api/User/ProcessUserLogin`,{
-      token: kcToken
-    })
+   await checkKeyloak();
+   console.log("keycloak token before api call",keyCloak.token)
+   window.electronAPI?.sendKeyCloakToken(keyCloak.token)
+   axios.post(`${baseURL}api/User/ProcessUserLogin?token=${keyCloak.token}`,)
       .then((response) => {
         console.log("Response from Axios after receiving token(Post): "+ JSON.stringify(response))
         console.log("data from axios (Post): "+response.data)
       })
   .catch((error) => console.log("error msg: "+error))
+ 
 }, [])
   const onIdle = () => {
     setAppState('Idle')
@@ -194,23 +179,19 @@ useEffect( () => {
     timeout: 300_000,
     throttle: 500
   })
+  useEffect(getAllProjectInfo,[])
   useEffect(()=>{
-    axios.get(`${baseUrl}/api/User/CodeBlock/GetAll`)
-      .then((response) => {
-        console.log("Response from Axios for getting all projects of user(Get): "+ JSON.stringify(response))
-        console.log("data from axios (Get): "+response.data)
-      })
-      .catch((error) => console.log("error msg: "+error))
-      const getAllProjectInfoAPIResponse = ProjectData
-      setProject(getAllProjectInfoAPIResponse)
+    const getAllProjectInfoAPIResponse = ProjectData
+    setProject(getAllProjectInfoAPIResponse)
   },[])
+  useEffect(getUserDetails,[])
   useEffect(() => {
     const interval = setInterval(() => {
       setRemaining(Math.ceil(getRemainingTime() / 1000))
     }, 500)
     if(appState == "Idle"){
       alert("You have been idle for a long time!")
-      // axios.post(`${baseURL}/api/v0/`,{})
+      // axios.post(`${baseURL}api/v0/`,{})
       // .then((response) => {
       //   console.log("Response from Axios on Idle State(Post): "+ JSON.stringify(response))
       //   console.log("data from axios (Post): "+response.data)
@@ -220,13 +201,14 @@ useEffect( () => {
     }
     else{
       alert("Welcome Back Again!")
-      // axios.post(`${baseURL}/api/v0/`,{})
+      // axios.post(`${baseURL}api/v0/`,{})
       // .then((response) => {
       //   console.log("Response from Axios on Active State(Post): "+ JSON.stringify(response))
       //   console.log("data from axios (Post): "+response.data)
       // })
       // .catch((error) => console.log("error msg: "+error))
        window.electronAPI?.startCodeBlock(startCode_BlockRequest)
+       window.electronAPI?.processUserLogin(processUserLoginAPIRequest)
     }
     console.log("App state: ",appState)
     return () => {
@@ -236,7 +218,7 @@ useEffect( () => {
 // console.log("token value is (App.js): "+ kcToken)
 //console.log("added Project details info: ",addProjectInfo)
 useEffect(()=>{
-  const testEnv = import.meta.env.VITE_TEST
+  const testEnv = import.meta.env.VITE_TEST_VAR
   console.log("Test env variable is: ",testEnv)
 },[])
 // const connection = new signalR.HubConnectionBuilder()
@@ -266,14 +248,15 @@ useEffect(()=>{
 //   }*/
 //   //use this to open the url to codewindow and appurl in secondaryWindow
 //   });
-function changeStartCodeblockResponse(value){
-    setStartCodeBlockRequest({
-      ...startCode_BlockRequest,
-      codeBlockId: value
-    })
-  console.log("Updated state value from projects page after clicking launch button")
-  window.electronAPI?.startCodeBlock(startCode_BlockRequest)
-}
+// function changeStartCodeblockResponse(value){
+//     setStartCode_BlockRequest({
+//       // ...startCode_BlockRequest,
+//       userId: getUserDetailsAPIResponse.id,
+//       codeBlockId: value
+//     })
+//   console.log("Updated state value from projects page after clicking launch button")
+//   window.electronAPI?.startCodeBlock(startCode_BlockRequest)
+// }
   return (
     <>
       <Routes>
@@ -359,6 +342,8 @@ function changeStartCodeblockResponse(value){
                         />
                       ))
                     }
+                     <Button variant='primary' className='AddTasksButton'>
+                     <FontAwesomeIcon icon={faPlus} className='ProjectButtonIcon'/>Add New Tasks</Button>
                   </div>
                   <div className='TaskCalander'>
                     <Calander
@@ -401,7 +386,8 @@ function changeStartCodeblockResponse(value){
                             vmId = {item.vmId}
                             containerId = {item.containerId}
                             currentUser = {userName}
-                            changeStartCodeblockResponse = {(value)=>changeStartCodeblockResponse(value)}
+                            // changeStartCodeblockResponse = {(value)=>changeStartCodeblockResponse(value)}
+                            getUserDetailsAPIResponse = {getUserDetailsAPIResponse}
                           />
                           ) // return
                         } //if
@@ -424,7 +410,7 @@ function changeStartCodeblockResponse(value){
                 <div className='ProjectAddEditButton'>
                       <Button variant='primary' className='ProjectButton' onClick={()=>{
                         setModalShow(true)
-                        axios.get(`${baseURL}/api/v0/`)
+                        axios.get(`${baseURL}api/v0/`)
                         .then((response) => {
                           console.log("Response from Axios before getting new project details(Get): "+ JSON.stringify(response))
                           console.log("data from axios (Get): "+response.data)
@@ -464,6 +450,7 @@ function changeStartCodeblockResponse(value){
           currentUser = {userName}
           searchValue = {searchVal}
           setSearchBarValue = {setSearchBarInput}
+          getUserDetailsAPIResponse = {getUserDetailsAPIResponse}
         />
       }/>
       <Route path = '/example' element = {

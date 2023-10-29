@@ -4,5 +4,6 @@
     }
     .TaskContent{
         width: 100%;
+        overflow-y: visible;
     }
 }

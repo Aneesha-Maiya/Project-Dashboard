@@ -1,0 +1,22 @@
+[
+    {
+      "name" : "WireFraming Concept",
+      "duration":"Today",
+      "isCompleted": false
+    },
+    {
+     "name":"Create MoodBoard",
+     "duration":"Today",
+     "isCompleted": true
+    },
+    {
+     "name":"Create Style Guide",
+     "duration":"Tomorrow",
+     "isCompleted": false
+    },
+    {
+     "name":"UI Design Started",
+     "duration":"Tomorrow",
+     "isCompleted": true
+    }
+]

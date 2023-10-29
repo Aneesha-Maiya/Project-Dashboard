@@ -211,6 +211,13 @@ body{
   display: grid;
   grid-template-columns: 60% 40%;
 }
+.TaskContentTop .AddTasksButton{
+  margin-top: 2vw;
+  font-size: 1vw;
+}
+.TaskContentTop .ProjectButtonIcon{
+  margin-right: 0.4vw;
+}
 .TaskContentTop .TaskCalander{
   justify-self: center;
 }

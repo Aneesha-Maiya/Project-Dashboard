@@ -123,8 +123,8 @@ export default function AllProjects(props) {
   return (
     <>
         <Header 
-        name = "Lindsey"
-        fullName = "Lindsley Alison"
+        name = {props.getUserDetailsAPIResponse.userName}
+        fullName = {props.getUserDetailsAPIResponse.userName}
         position = "UI Designer"
         profileImg = {Lindsley}
         setSearchBarValue = {props.setSearchBarValue}
@@ -163,6 +163,7 @@ export default function AllProjects(props) {
                           vmId = {item.vmId}
                           containerId = {item.containerId}
                           currentUser = {props.currentUser}
+                          getUserDetailsAPIResponse = {props.getUserDetailsAPIResponse}
                         />
                       ) //return
                     } //if
@@ -206,6 +207,7 @@ export default function AllProjects(props) {
                                 vmId = {item2.vmId}
                                 containerId = {item2.containerId}
                                 currentUser = {props.currentUser}
+                                getUserDetailsAPIResponse = {props.getUserDetailsAPIResponse}
                             />
                         )
                       )

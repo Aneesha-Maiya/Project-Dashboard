@@ -28,6 +28,10 @@ export default function Project(props) {
     webAppUrl: props.webUrl,
     type: props.projectTech,
   }
+const startCodeBlockRequest = {
+    "codeBlockId": "Project1",
+    "userId": ""
+  }
   const projectNameClick = () => {
     axios.get("https://jsonplaceholder.typicode.com/posts")
       .then((response) => {
@@ -59,10 +63,14 @@ export default function Project(props) {
           <div className = 'ProjectTasksInfo'>
             <p><FontAwesomeIcon icon={faCheckCircle}/>  {props.numberOfTasksCompleted}/{props.numberOfTasks}</p>
             <p><FontAwesomeIcon icon={faLink}/>  {props.numberOfMembers}</p>
+            {props.sharedBy == props.getUserDetailsAPIResponse.userName &&
             <Button variant = 'primary' className='LaunchButton'
             onClick={()=>{
-              props.changeStartCodeblockResponse(props.id)
-            }}>Launch</Button>
+              // props.changeStartCodeblockResponse(props.id)
+              startCodeBlockRequest.userId = props.getUserDetailsAPIResponse.id
+              startCodeBlockRequest.codeBlockId = props.id
+              window.electronAPI?.startCodeBlock(startCodeBlockRequest)
+            }}>Launch</Button>}
           </div>
           <div className='ProjectProgressBar'>
             <ProgressBar now={(props.numberOfTasksCompleted/props.numberOfTasks)*100}
