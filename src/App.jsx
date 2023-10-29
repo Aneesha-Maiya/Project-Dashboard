@@ -27,6 +27,7 @@ import newProjectInfoContext from './contexts/newprojectInfoContext'
 import Example from '../components/example'
 import getUserDetails from './API/getUserDetails'
 import getAllProjectInfo from './API/getAllProjectInfo'
+import AddTasksForm from '../components/AddTasksForm'
 
 import Lindsley from '../image/Lindsley.jfif'
 import Aaron from '../image/Aaron.jfif'
@@ -102,6 +103,7 @@ const [remaining,setRemaining] = useState(0)
 const [newLogin, setNewLogin] = useState(processUserLoginAPIRequest.newLogin)
 const [startCode_BlockRequest,setStartCode_BlockRequest] = useState(startCodeBlockRequest)
 const [stopCode_BlockRequest,setstopCode_BlockRequest] = useState(stopCodeBlockRequest)
+const [modelDisplay,setModelDisplay] = useState("")
 
 const addProjectInfo = useContext(newProjectInfoContext)
 const baseUrl = import.meta.env.VITE_BASE_URL
@@ -257,6 +259,14 @@ useEffect(()=>{
 //   console.log("Updated state value from projects page after clicking launch button")
 //   window.electronAPI?.startCodeBlock(startCode_BlockRequest)
 // }
+function changeTasksList(value1,value2){
+  const newTasks = {
+    "name" : {value1},
+    "duration": {value2},
+    "isCompleted": false
+  }
+  setTask([...task,newTasks])
+}
   return (
     <>
       <Routes>
@@ -342,8 +352,20 @@ useEffect(()=>{
                         />
                       ))
                     }
-                     <Button variant='primary' className='AddTasksButton'>
+                     <Button variant='primary' className='AddTasksButton'
+                      onClick={()=>{
+                        setModalShow(true)
+                        setModelDisplay("TasksForm")
+                        //navigate('/AddTasksForm')
+                      }}
+                     >
                      <FontAwesomeIcon icon={faPlus} className='ProjectButtonIcon'/>Add New Tasks</Button>
+                     {/* <MyModal
+                          show = {modalShow}
+                          onHide = {()=>setModalShow(false)}
+                          getUserDetailsAPIResponse = {getUserDetailsAPIResponse}
+                          display = "TasksForm"
+                    /> */}
                   </div>
                   <div className='TaskCalander'>
                     <Calander
@@ -410,6 +432,7 @@ useEffect(()=>{
                 <div className='ProjectAddEditButton'>
                       <Button variant='primary' className='ProjectButton' onClick={()=>{
                         setModalShow(true)
+                        setModelDisplay("ProjectForm")
                         axios.get(`${baseURL}api/v0/`)
                         .then((response) => {
                           console.log("Response from Axios before getting new project details(Get): "+ JSON.stringify(response))
@@ -419,9 +442,11 @@ useEffect(()=>{
                         }}>
                         <FontAwesomeIcon icon={faPlus} className='ProjectButtonIcon'/>Add New Projects</Button>
                         <MyModal
-                        show = {modalShow}
-                        onHide = {()=>setModalShow(false)}
-                        getUserDetailsAPIResponse = {getUserDetailsAPIResponse}
+                          show = {modalShow}
+                          onHide = {()=>setModalShow(false)}
+                          getUserDetailsAPIResponse = {getUserDetailsAPIResponse}
+                          changeTasksList = {(value1,value2)=>{changeTasksList(value1,value2)}}
+                          display = {modelDisplay}
                         />
                       <Button variant='primary' className='ProjectButton'>
                         <FontAwesomeIcon icon={faPenToSquare} className='ProjectButtonIcon'/>Edit Project Info</Button>
@@ -458,7 +483,11 @@ useEffect(()=>{
           <Example/>
         </>
       }> 
-
+      </Route>
+      <Route path='/AddTasksForm' element={
+        <AddTasksForm
+        />
+      }>
       </Route>
       </>
       </Routes>
