@@ -2,12 +2,14 @@ import {React} from 'react'
 import { useState, useEffect} from 'react'
 import {Form ,Button} from 'react-bootstrap'
 import {useForm} from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 import newProjectInfoContext from '../src/contexts/newprojectInfoContext'
 
 export default function AddProjectForm(props) {
   const baseUrl = import.meta.env.VITE_BASE_URL
+  const navigate = useNavigate()
   const templateAPIResponse = [
     {
         "id": 123,
@@ -105,7 +107,7 @@ export default function AddProjectForm(props) {
     //     }
     //  }
     useEffect(()=>{
-        axios.get(`${baseUrl}/api/template/all`)
+        axios.get(`${baseUrl}api/template/all`)
           .then((response) => {
             console.log("Response from Axios for getting all projects of user(Get): "+ JSON.stringify(response))
             console.log("data from axios (Get): "+response.data)
@@ -127,7 +129,7 @@ export default function AddProjectForm(props) {
   return (
     <Form noValidate onSubmit={
         handleSubmit(
-        (data)=>{
+        (data,event)=>{
             console.log(data)
             // setProjectName(d.projectName)
             // setTechUsed(d.projectSelect)
@@ -138,9 +140,14 @@ export default function AddProjectForm(props) {
             console.log("project name -> ", outputValues.projectName)
             console.log("tech used -> ",outputValues.projectSelect)
             createCodeBlockRequest.projectName = data.projectName
+            for (let i = 0; i <data.projectName.length; i++) {
+                if(data.projectName[i] == '*' || data.projectName[i] == '&'){
+                    alert('Special Characters are not allowed')
+                }
+            }
             createCodeBlockRequest.projectDescription = data.projectDesc
             createCodeBlockRequest.tempalteId = data.projectSelect
-            
+            createCodeBlockRequest.id = `${createCodeBlockRequest.projectName.toLowerCase()}-${createCodeBlockRequest.tempalteId}`
             // axios.post("https://jsonplaceholder.typicode.com/posts",{})
             // .then((response) => {
             //     console.log("Response from Axios after sending project details(Post): "+ JSON.stringify(response))
@@ -150,10 +157,10 @@ export default function AddProjectForm(props) {
             // createNewCodeBlock
             alert("Form Submitted Successfully")
             if(data.projectSelect == "WebApp"){
-                window.electronAPI.sendWebURL(addProjectAPIResponse)
+                window.electronAPI?.sendWebURL(addProjectAPIResponse)
             }
             else{
-                window.electronAPI.sendURL(addProjectAPIResponse)
+                window.electronAPI?.sendURL(addProjectAPIResponse)
             }
             window.electronAPI?.createCodeBlock(createCodeBlockRequest)
             window.electronAPI?.startCodeBlock(startCodeBlockRequest)
@@ -170,7 +177,7 @@ export default function AddProjectForm(props) {
                 id = 'projectName'
                 {
                     ...register('projectName',{
-                    required: "ProjectName is required"
+                    required: "ProjectName is required",
                     })
                 }
             />

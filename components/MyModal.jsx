@@ -2,6 +2,7 @@ import React from 'react'
 import {Modal, Button, Form} from 'react-bootstrap'
 import AddProjectForm from './AddProjectForm'
 import AddTasksForm from './AddTasksForm'
+import EditTasksForm from './EditTasksForm'
 
 export default function MyModal(props) {
   return (
@@ -16,6 +17,7 @@ export default function MyModal(props) {
         <Modal.Header closeButton className ='MyModalHeader'>
             {props.display == "ProjectForm" &&  <Modal.Title className ='MyModalHeader'>Add Project Form</Modal.Title>}
             {props.display == "TasksForm" &&  <Modal.Title className ='MyModalHeader'>Add Tasks Form</Modal.Title>}
+            {props.display == "EditTasksForm" &&  <Modal.Title className ='MyModalHeader'>Edit Tasks Form</Modal.Title>}
         </Modal.Header>
         <Modal.Body className='MyModalBody'>
             {props.display == "ProjectForm" && <AddProjectForm
@@ -23,6 +25,9 @@ export default function MyModal(props) {
             />}
             {props.display == "TasksForm" && <AddTasksForm
                 changeTasksList = {props.changeTasksList}
+            />}
+            {props.display == "EditTasksForm" && <EditTasksForm
+                editTasksList = {props.editTasksList}
             />}
         </Modal.Body>
         <Modal.Footer className='MyModalFooter'>

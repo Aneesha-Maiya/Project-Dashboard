@@ -104,6 +104,7 @@ const [newLogin, setNewLogin] = useState(processUserLoginAPIRequest.newLogin)
 const [startCode_BlockRequest,setStartCode_BlockRequest] = useState(startCodeBlockRequest)
 const [stopCode_BlockRequest,setstopCode_BlockRequest] = useState(stopCodeBlockRequest)
 const [modelDisplay,setModelDisplay] = useState("")
+const [editTaskId,setEditTaskId] = useState(0)
 
 const addProjectInfo = useContext(newProjectInfoContext)
 const baseUrl = import.meta.env.VITE_BASE_URL
@@ -261,11 +262,23 @@ useEffect(()=>{
 // }
 function changeTasksList(value1,value2){
   const newTasks = {
-    "name" : {value1},
-    "duration": {value2},
+    "name" : value1,
+    "duration": value2,
     "isCompleted": false
   }
   setTask([...task,newTasks])
+}
+
+function setEditTasksValues(value1){
+  setModalShow(true)
+  setEditTaskId(value1)
+  setModelDisplay("EditTasksForm")
+  // alert(editTaskId)
+}
+function editTasksList(value1,value2){
+  alert(editTaskId)
+  task[editTaskId].name = value1
+  task[editTaskId].duration = value2
 }
   return (
     <>
@@ -343,23 +356,38 @@ function changeTasksList(value1,value2){
                 <div className='TaskContentTop'>
                   <div className = 'TaskList'>
                     {
-                      task.map((item,index) =>(
-                        <TaskPanel
-                          tasks = {item}
-                          taskName = {item.name}
-                          taskStatus = {item.isCompleted}
-                          changeStatus = {() => {checkTask(index)}}
-                        />
-                      ))
+                      task.map((item,index) =>{
+                      if (index <= 5) {
+                        return(
+                          <TaskPanel
+                            tasks = {item}
+                            taskName = {item.name}
+                            taskStatus = {item.isCompleted}
+                            changeStatus = {() => {checkTask(index)}}
+                            setEditTasksValues = {() => {setEditTasksValues(index)}}
+                          />
+                        )
+                      }
+                      })
                     }
-                     <Button variant='primary' className='AddTasksButton'
-                      onClick={()=>{
-                        setModalShow(true)
-                        setModelDisplay("TasksForm")
-                        //navigate('/AddTasksForm')
-                      }}
-                     >
-                     <FontAwesomeIcon icon={faPlus} className='ProjectButtonIcon'/>Add New Tasks</Button>
+                      <div className='TaskListButtons'>
+                        <Button variant='primary' className='AddTasksButton'
+                          onClick={()=>{
+                            setModalShow(true)
+                            setModelDisplay("TasksForm")
+                            //navigate('/AddTasksForm')
+                          }}
+                        >
+                        <FontAwesomeIcon icon={faPlus} className='ProjectButtonIcon'/>Add New Tasks</Button>
+                        {/* <Button variant='primary' className='AddTasksButton'
+                        onClick={()=>{
+                          setModalShow(true)
+                          setModelDisplay("EditTasksForm")
+                          //navigate('/AddTasksForm')
+                        }}
+                        >
+                        <FontAwesomeIcon icon={faPenToSquare} className='ProjectButtonIcon'/>Edit Tasks Details</Button> */}
+                      </div>
                      {/* <MyModal
                           show = {modalShow}
                           onHide = {()=>setModalShow(false)}
@@ -446,6 +474,7 @@ function changeTasksList(value1,value2){
                           onHide = {()=>setModalShow(false)}
                           getUserDetailsAPIResponse = {getUserDetailsAPIResponse}
                           changeTasksList = {(value1,value2)=>{changeTasksList(value1,value2)}}
+                          editTasksList = {(value1,value2)=>{editTasksList(value1,value2)}}
                           display = {modelDisplay}
                         />
                       <Button variant='primary' className='ProjectButton'>

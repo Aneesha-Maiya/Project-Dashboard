@@ -211,12 +211,22 @@ body{
   display: grid;
   grid-template-columns: 60% 40%;
 }
-.TaskContentTop .AddTasksButton{
-  margin-top: 2vw;
-  font-size: 1vw;
+.TaskContentTop .TaskList .TaskListButtons{
+  display: grid;
+  grid-template-columns: 100%;
+  width: 100%;
+  justify-items: center;
 }
-.TaskContentTop .ProjectButtonIcon{
-  margin-right: 0.4vw;
+.TaskContentTop .TaskList .TaskListButtons .AddTasksButton{
+  width: 60%;
+  height: 3vw;
+  font-size: 1vw;
+  margin: 1vw 0vw;
+  padding: 0%;
+  font-weight: 600;
+}
+.TaskContentTop .TaskList .TaskListButtons .ProjectButtonIcon{
+  margin-right: 0.5vw;
 }
 .TaskContentTop .TaskCalander{
   justify-self: center;
@@ -245,9 +255,12 @@ body{
   margin-right: 0.5vw;
 }
 .LaunchButton{
+  width: 60%;
+  height: 2vw;
+  font-size: 1vw;
   margin: 0.5vw;
-  font-size: 0.8vw;
-  text-align: center;
+  padding: 0vw;
+  font-weight: 600;
 }
 .TaskContentBottomTeam{
   display: flex;
@@ -399,6 +412,12 @@ body{
   align-self: center;
   justify-self: center;
   color: gray;
+  cursor: pointer;
+}
+.TasksContentTrue .ProjectButtonIcon,.TasksContentFalse .ProjectButtonIcon{
+  font-size: 1.5vw;
+  align-self: center;
+  justify-self: center;
   cursor: pointer;
 }
 .CalanderContent{

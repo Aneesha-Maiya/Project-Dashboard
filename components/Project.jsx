@@ -1,7 +1,7 @@
 import React from 'react'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import { faCheckCircle} from '@fortawesome/free-regular-svg-icons';
-import {faLink} from '@fortawesome/free-solid-svg-icons';
+import {faCaretRight, faLink} from '@fortawesome/free-solid-svg-icons';
 import {ProgressBar,Button} from 'react-bootstrap';
 import axios from 'axios';
 
@@ -64,13 +64,13 @@ const startCodeBlockRequest = {
             <p><FontAwesomeIcon icon={faCheckCircle}/>  {props.numberOfTasksCompleted}/{props.numberOfTasks}</p>
             <p><FontAwesomeIcon icon={faLink}/>  {props.numberOfMembers}</p>
             {props.sharedBy == props.getUserDetailsAPIResponse.userName &&
-            <Button variant = 'primary' className='LaunchButton'
+            <Button variant = 'success' className='LaunchButton'
             onClick={()=>{
               // props.changeStartCodeblockResponse(props.id)
               startCodeBlockRequest.userId = props.getUserDetailsAPIResponse.id
               startCodeBlockRequest.codeBlockId = props.id
               window.electronAPI?.startCodeBlock(startCodeBlockRequest)
-            }}>Launch</Button>}
+            }}>Launch <FontAwesomeIcon icon={faCaretRight} className='LaunchIcon'/></Button>}
           </div>
           <div className='ProjectProgressBar'>
             <ProgressBar now={(props.numberOfTasksCompleted/props.numberOfTasks)*100}

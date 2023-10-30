@@ -8,6 +8,7 @@ export default function TaskPanel(props) {
           taskDuration = {task.duration}
           taskStatus = {task.isCompleted}
           changeStatus = {props.changeStatus}
+          setEditTasksValues = {props.setEditTasksValues}
         />
   )
 }
