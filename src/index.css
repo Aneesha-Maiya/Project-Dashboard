@@ -414,7 +414,10 @@ body{
   color: gray;
   cursor: pointer;
 }
-.TasksContentTrue .ProjectButtonIcon,.TasksContentFalse .ProjectButtonIcon{
+.TasksContentTrue .TasksOperation .ProjectButtonIcon,
+.TasksContentFalse .ProjectButtonIcon{
+  display: grid;
+  grid-template-columns: 50% 50%;
   font-size: 1.5vw;
   align-self: center;
   justify-self: center;

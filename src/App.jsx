@@ -159,7 +159,7 @@ useEffect(() => async()=>{
    axios.post(`${baseURL}api/User/ProcessUserLogin?token=${keyCloak.token}`,)
       .then((response) => {
         console.log("Response from Axios after receiving token(Post): "+ JSON.stringify(response))
-        console.log("data from axios (Post): "+response.data)
+        console.log("data from axios (Post): "+JSON.stringify(response.data))
       })
   .catch((error) => console.log("error msg: "+error))
  
@@ -461,12 +461,12 @@ function editTasksList(value1,value2){
                       <Button variant='primary' className='ProjectButton' onClick={()=>{
                         setModalShow(true)
                         setModelDisplay("ProjectForm")
-                        axios.get(`${baseURL}api/v0/`)
-                        .then((response) => {
-                          console.log("Response from Axios before getting new project details(Get): "+ JSON.stringify(response))
-                          console.log("data from axios (Get): "+response.data)
-                        })
-                        .catch((error) => console.log("error msg: "+error))
+                        // axios.get(`${baseURL}api/v0/`)
+                        // .then((response) => {
+                        //   console.log("Response from Axios before getting new project details(Get): "+ JSON.stringify(response))
+                        //   console.log("data from axios (Get): "+response.data)
+                        // })
+                        // .catch((error) => console.log("error msg: "+error))
                         }}>
                         <FontAwesomeIcon icon={faPlus} className='ProjectButtonIcon'/>Add New Projects</Button>
                         <MyModal

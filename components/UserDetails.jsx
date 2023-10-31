@@ -113,7 +113,7 @@ const UserDetails = (props) => {
 function sendUpdatedUserDetails(){
   // useEffect(()=>{
     console.log(enteredValue.discordUsername)
-  axios.put(`${baseUrl}/api/User/UpdateUserDetails`,
+  axios.put(`${baseUrl}api/User/UpdateUserDetails`,
   {
     "userName": props.getUserDetailsAPIResponse.userName,
     "userId": props.getUserDetailsAPIResponse.id,
