@@ -602,3 +602,26 @@ body{
   color: red;
   margin-bottom: 2vw;
 }
+
+/* server inactive page css */
+.ServerInactiveContainer{
+  display: grid;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  width: 50%;
+  height: 50%;
+  color: white;
+  text-align: center;
+}
+
+.ServerInactiveContainer h1{
+  font-size: 10vw;
+}
+.ServerInactiveContainer h3{
+  font-size: 3vw;
+}
+.ServerInactiveContainer p{
+  font-size: 1.25vw;
+}

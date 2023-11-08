@@ -28,6 +28,7 @@ import Example from '../components/example'
 import getUserDetails from './API/getUserDetails'
 import getAllProjectInfo from './API/getAllProjectInfo'
 import AddTasksForm from '../components/AddTasksForm'
+import ServerInactive from '../components/ServerInactive'
 
 import Lindsley from '../image/Lindsley.jfif'
 import Aaron from '../image/Aaron.jfif'
@@ -146,6 +147,7 @@ const checkKeyloak = async () => {
     console.log("keycloak token value is",kcToken)
   } catch (error) {
     console.error('Failed to initialize adapter:', error);
+    navigate('/ServerInactive')
   }
 }
 const isCalled = useRef(false);
@@ -516,6 +518,10 @@ function editTasksList(value1,value2){
       <Route path='/AddTasksForm' element={
         <AddTasksForm
         />
+      }>
+      </Route>
+      <Route path='/ServerInactive' element={
+        <ServerInactive/>
       }>
       </Route>
       </>
